@@ -1,2 +1,1 @@
-# kuesioner
-si kuesioner
+# diskominfo
