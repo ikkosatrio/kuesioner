@@ -51,11 +51,11 @@ Dashboard - Administrasi
 		                        </tr>
 		                    </thead>
 		                    <tbody>
-		                    	@foreach($kuesioner as $key => $result)
+		                    	@foreach($responden as $key => $result)
 		                         <tr>
 		                        	<td align="center">{{($key+1)}}</td>
 			                        <td style="width:300px;">
-			                        	<a href="{{base_url('superuser/kuesioner/update/'.$result->id_kuesioner.'/'.seo($result->nama))}}">
+			                        	<a href="{{base_url('superuser/kuesioner/update/'.$result->id_responden.'/'.seo($result->nama))}}">
 			                        	{{$result->nim}}
 			                        	</a><br>			                  
 			                        </td>
@@ -74,12 +74,12 @@ Dashboard - Administrasi
 					                    	<button type="button" class="btn btn-danger btn-sm btn-rounded dropdown-toggle" data-toggle="dropdown"><i class="icon-cog5 position-left"></i> Action <span class="caret"></span></button>
 					                    	<ul class="dropdown-menu dropdown-menu-right">
 												<li>
-													<a href="{{base_url('superuser/kuesioner/update/'.$result->id_kuesioner)}}">
+													<a href="{{base_url('superuser/kuesioner/update/'.$result->id_responden)}}">
 														<i class="fa fa-edit"></i> Ubah Kuesioner
 													</a>
 												</li>
 												<li><a href="javascript:void(0)" onclick="deleteIt(this)" 
-												data-url="{{base_url('superuser/kuesioner/deleted/'.$result->id_kuesioner)}}">
+												data-url="{{base_url('superuser/kuesioner/deleted/'.$result->id_responden)}}">
 														<i class="fa fa-trash"></i> Hapus Kuesioner
 													</a>
 												</li>
