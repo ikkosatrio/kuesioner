@@ -24,7 +24,7 @@ Dashboard - Administrasi
 
 				<!-- Content area -->
 				<div class="content">
-
+					<form action="" class="form-horizontal" id="formjawab">
 					<!-- Basic datatable -->
 					<div class="panel panel-flat">
 						<div class="panel-heading">
@@ -38,7 +38,7 @@ Dashboard - Administrasi
 		                	</div>
 						</div>
 						<div class="panel-heading">
-							<table class="table table-striped table-sm" style="display: none">
+							<table id="responden" class="table table-striped table-sm" style="display: none">
 								<tr>
 									<td>Nama</td>
 									<td id="nama_responden">Ikko</td>
@@ -51,13 +51,12 @@ Dashboard - Administrasi
 							<br>
 							<div class="row">
 								<div class="col-md-6">
-									<input type="text" id="keyword" name="keyword" class="typeahead form-control" value="" placeholder="Pilih Responden (NIM OR NAMA)">
-									<div id="bloodhound">
-									  <input class="typeahead" type="text" placeholder="States of USA">
-									</div>
+									<input type="text" id="keyword" name="keyword" class="form-control" value="" placeholder="Pilih Responden (NIM OR NAMA)">
+									<input type="hidden" id="nim" name="nim" class="form-control" value="">
+									<input type="hidden" id="kuesioner" name="kuesioner" class="form-control" value="{{$kuesioner->id_kuesioner}}">
 								</div>
 								<div class="col-md-6">
-									<a href="{{base_url('superuser/kuesioner/create')}}"><button type="button" class="btn bg-teal-400 btn-labeled"><b><i class="icon-plus-circle2"></i></b> Jadikan Responden</button></a>
+									<button type="button" id="btnReset" class="btn bg-danger-400 btn-labeled"><b><i class="icon-eraser"></i></b> Reset Responden</button>
 								</div>
 							</div>
 							<br>
@@ -84,36 +83,14 @@ Dashboard - Administrasi
 				                        </td>
 				                        <td class="text-center pull-right">
 				                           <div class="form-group">
+												@for ($i = 1; $i <= $kuesioner->skala; $i++)
 												<div class="radio-inline">
 													<label>
-														<input type="radio" name="jawaban{{$result->id_soal}}" value="1">
-														1
+														<input type="radio" name="jawaban-{{$result->id_soal}}" value="{{$i}}">
+														{{$i}}
 													</label>
 												</div>
-												<div class="radio-inline">
-													<label>
-														<input type="radio" name="jawaban{{$result->id_soal}}" value="2">
-														2
-													</label>
-												</div>
-												<div class="radio-inline">
-													<label>
-														<input type="radio" name="jawaban{{$result->id_soal}}" value="3">
-														3
-													</label>
-												</div>
-												<div class="radio-inline">
-													<label>
-														<input type="radio" name="jawaban{{$result->id_soal}}" value="4">
-														4
-													</label>
-												</div>
-												<div class="radio-inline">
-													<label>
-														<input type="radio" name="jawaban{{$result->id_soal}}" value="5"> 
-														5
-													</label>
-												</div>
+												@endfor
 											</div>
 				                        </td>
 			                        </tr>
@@ -130,46 +107,94 @@ Dashboard - Administrasi
 						</div>
 						<br>
 					</div>
-
+					</form>
 					<!-- /basic datatable -->					
 
 				</div>
 				<!-- /content area -->
 
 			</div>
-
-			
 @endsection
 @section('script')
-	<script>
-				$(document).ready(function(e){
-					var respondens = new Bloodhound({
-					  datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
-					  queryTokenizer: Bloodhound.tokenizers.whitespace,
-					  remote: {
-					  	cacheKey: 'search',
-					    url: '{{base_url('superuser/kuesioner/search/')}}',
-					    replace: function(url, query) {
-				               return url + "?q=" + query;
-				        },
-				        filter: function(search) {
-				            return $.map(search, function(data) {
-				                    return {
-				                        nim: data.nim,
-				                        nama: data.nama,
-				                        instansi: data.instansi
-				                }
-				            });
-				        }
-					  }
-					});
-			       $('#bloodhound .typeahead').typeahead(null, {
-					  name: 'responden',
-					  display: 'nama',
-					  source: respondens
-					});
+	 <script type="text/javascript">
+        $(document).ready(function(){
+        	$("#btnReset").click(function(){
+        		 $('#responden').hide("slide")
+        		 $('#nim').val();
+        	});
+            $( "#keyword" ).autocomplete({
+              source: "{{base_url('superuser/autocomplete')}}",
+              focus: function( event, ui ) {
+              	console.log(ui);
+		        $( "#keyword" ).val( ui.item.nama );
+		        return false;
+		      },
+              select: function (event, ui) {
+                    $('#responden').show("slide")
+                    $(this).val(ui.item.nama); 
+                    $('#nama_responden').text(ui.item.nama); 
+                    $('#instansi_responden').text(ui.item.instansi); 
+                    $('#nim').val(ui.item.nim);
+                    return false;
+                }
+            }).autocomplete( "instance" )._renderItem = function( ul, item ) {
+		      return $( "<li>" )
+		        .append( "<div>" + item.nim + " - <strong>" + item.nama + "</strong></div>" )
+		        .appendTo( ul );
+		    };
 
-			    });
-			</script>
+		    $('#formjawab').submit(function(e){
+				e.preventDefault();
+				var formData = new FormData( $("#formjawab")[0] );
+
+				// for ( instance in CKEDITOR.instances ) {
+			 //        CKEDITOR.instances[instance].updateElement();
+			 //    }
+			 //    
+			 	// console.log(new FormData(this));
+			 	// debugger;
+
+
+
+			    $.ajax({
+						url: 		"{{base_url('superuser/soal/jawab')}}",
+						method: 	"POST",
+						data:  		new FormData(this),
+		          		processData: false,
+		          		contentType: false,
+						beforeSend: function(){
+							blockMessage($('#formjawab'),'Please Wait ,','#fff');		
+						}
+					})
+					.done(function(data){
+						$('#formjawab').unblock();
+						sweetAlert({
+							title: 	((data.auth==false) ? "Opps!" : 'Success'),
+							text: 	data.msg,
+							type: 	((data.auth==false) ? "error" : "success"),
+						},
+						function(){
+							if(data.auth!=false){
+								// redirect("{{base_url('superuser/kuesioner/update/'.$kuesioner->id_kuesioner)}}");		
+								return;
+							}
+						});
+					})
+					.fail(function() {
+					    $('#formjawab').unblock();
+						sweetAlert({
+							title: 	"Opss!",
+							text: 	"Ada Yang Salah! , Silahkan Coba Lagi Nanti",
+							type: 	"error",
+						},
+						function(){
+						});
+					 })
+
+			});
+
+        });
+    </script>
 @endsection
+
 

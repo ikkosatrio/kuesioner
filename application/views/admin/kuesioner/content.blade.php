@@ -160,6 +160,11 @@ Dashboard - Administrasi
 												<input type="hidden" name="id_soal" value="">
 												<input type="hidden" name="id_kuesioner" value="{{ $kuesioner->id_kuesioner}}">
 												<textarea rows="10" id="editor-full" cols="100" class="wysihtml5 wysihtml5-default2 form-control"  name="soal" ></textarea>
+												<br>
+												<select name="jenis">
+													<option value="positif">POSITIF</option>
+													<option value="negatif">NEGATIF</option>
+												</select>
 											</div>
 										</div>
 									</div>

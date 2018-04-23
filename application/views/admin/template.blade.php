@@ -16,6 +16,8 @@
 	<link href="{{base_url()}}assets/css/colors.css" rel="stylesheet" type="text/css">
 	<link href="{{base_url()}}assets/js/sweetalert.min.css" rel="stylesheet" type="text/css">
 	<link href="{{base_url()}}assets/css/custom2.css" rel="stylesheet" type="text/css">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.css" rel="stylesheet" type="text/css">
+	
 	<!-- /global stylesheets -->
 	@yield('style')
 	<!-- Core JS files -->
@@ -321,13 +323,14 @@
 	
 	@yield('corejs')
 	<script type="text/javascript" src="{{base_url()}}assets/js/core/app.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.2/bootstrap3-typeahead.min.js"></script>  
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.2/bootstrap3-typeahead.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.js"></script>    
 	
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/corejs-typeahead/1.2.1/bloodhound.min.js"></script>  
 	<!-- /theme JS files -->
-	@yield('script')
 	<script type="text/javascript" src="{{base_url()}}assets/js/cak-js.js"></script>
 	<script type="text/javascript" src="{{base_url()}}assets/js/sweetalert.min.js"></script>
+	@yield('script')
 	
 
 	<script type="text/javascript">

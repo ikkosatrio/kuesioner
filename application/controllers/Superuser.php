@@ -17,6 +17,7 @@ class Superuser extends CI_Controller {
 		$this->load->model('m_soal');
 		$this->load->model('m_user');
 		$this->load->model('m_responden');
+		$this->load->model('m_jawaban');
 		$this->data['config'] = $this->m_config->ambil('config',1)->row();
 	}
 
@@ -30,6 +31,22 @@ class Superuser extends CI_Controller {
 		echo $this->blade->nggambar('admin.home',$data);
 
 
+	}
+
+	public function autocomplete()
+	{
+		if (isset($_GET['term'])) {
+            $result = $this->m_responden->search_reponden($_GET['term']);
+            if (count($result) > 0) {
+            foreach ($result as $row)
+                $arr_result[] = array(
+                			"nim" => $row->nim,
+                			"nama"=>$row->nama,
+                			"instansi" => $row->instansi,
+                		);
+                echo json_encode($arr_result);
+            }
+        }
 	}
 
 	// Start Config
@@ -135,11 +152,13 @@ class Superuser extends CI_Controller {
 
 			$soal  = $this->input->post('soal');
 			$id_kuesioner  = $this->input->post('id_kuesioner');
+			$jenis  = $this->input->post('jenis');
 
 
 			$data = array(
 				'id_kuesioner' => $id_kuesioner,
 				'soal'       => $soal,
+				'jenis'      => $jenis,
 			);
 
 			if($this->m_soal->input_data($data,'soal')){
@@ -152,6 +171,37 @@ class Superuser extends CI_Controller {
 			$where           = array('id_responden' => $id);
 			$data['responden'] = $this->m_responden->detail($where,'responden')->row();
 			echo $this->blade->nggambar('admin.responden.content',$data);
+		}
+		else if ($url=="jawab" && $this->input->is_ajax_request() == true) {
+
+			$kuesioner = $this->input->post('kuesioner');
+			$nim       = $this->input->post('nim');
+
+			$data = array(
+				'id_kuesioner' => $kuesioner,
+				'nim'       => $nim,
+			); 
+			$id = $this->m_jawaban->input_data($data,'jawaban');
+			
+			$soals = $this->m_responden->tampil_data('soal')->result();
+			foreach ($soals as $soal) {
+				if ($this->input->post('jawaban-'.$soal->id_soal)) {
+					$jawaban = $this->input->post('jawaban-'.$soal->id_soal);
+					$id_soal = $soal->id_soal;
+
+					$arrjawab = array(
+						'id_jawaban' => $id,
+						'id_soal' => $id_soal,
+						'jawaban' => $jawaban,
+ 					);
+
+					$this->m_jawaban->input_data($arrjawab,'detail_jawaban');
+
+				}
+			}
+
+			echo goResult(true,"Data Telah Di Dijawab");
+			return;
 		}
 		else if ($url=="updated" && $id!=null && $this->input->is_ajax_request() == true) {
 			$where           = array('id_responden' => $id);
