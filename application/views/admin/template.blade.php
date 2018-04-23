@@ -282,9 +282,9 @@
 								<li class="{{match($menu,'dashboard','active')}}"><a href="{{base_url('superuser')}}"><i class="icon-home4"></i> <span>Dashboard</span></a></li>
 								
 									<li class="{{match($menu,'config','active')}}"><a href="{{base_url('superuser/config')}}"><i class="icon-gear"></i> <span>Configurasi Website</span></a></li>
-									<li class="{{match($menu,'anggota','active')}}"><a href="{{base_url('superuser/responden')}}"><i class="icon-users"></i> <span>Responden</span></a></li>
-									<li class="{{match($menu,'bidang','active')}}"><a href="{{base_url('superuser/kuesioner')}}"><i class="icon-clipboard"></i> <span>Kuesioner</span></a></li>
-									<li class="{{match($menu,'peserta','active')}}"><a href="{{base_url('superuser/soal')}}"><i class="icon-stats-bars"></i> <span>Hasil</span></a></li>
+									<li class="{{match($menu,'responden','active')}}"><a href="{{base_url('superuser/responden')}}"><i class="icon-users"></i> <span>Responden</span></a></li>
+									<li class="{{match($menu,'kuesioner','active')}}"><a href="{{base_url('superuser/kuesioner')}}"><i class="icon-clipboard"></i> <span>Kuesioner</span></a></li>
+									<li class="{{match($menu,'hasil','active')}}"><a href="{{base_url('superuser/hasil')}}"><i class="icon-stats-bars"></i> <span>Hasil</span></a></li>
 							</ul>
 						</div>
 					</div>

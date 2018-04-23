@@ -331,7 +331,7 @@ class Superuser extends CI_Controller {
 	public function kuesioner($url=null,$id=null)
 	{
 		$data             = $this->data;
-		$data['menu']     = "responden";
+		$data['menu']     = "kuesioner";
 		$data['kuesioner'] = $this->m_kuesioner->tampil_data('kuesioner')->result();
 
 		if ($url=="create") {
@@ -409,6 +409,91 @@ class Superuser extends CI_Controller {
 		}
 	}
 	// End kuesioner
+	
+
+	// Start hasil
+	public function hasil($url=null,$id=null)
+	{
+		$data             = $this->data;
+		$data['menu']     = "hasil";
+		$data['hasil'] = $this->m_kuesioner->tampil_data('kuesioner')->result();
+
+		if ($url=="create") {
+			$data['type']			= "create";
+			echo $this->blade->nggambar('admin.kuesioner.content',$data);
+			return;
+		}
+		else if ($url == "created" && $this->input->is_ajax_request() == true) {
+
+			$kode      = $this->input->post('kode_kuesioner');
+			$judul     = $this->input->post('judul');
+			$skala     = $this->input->post('skala');
+			$deskripsi = $this->input->post('deskripsi');
+
+			$data = array(
+				'kode_kuesioner' => $kode,
+				'judul'          => $judul,
+				'skala'          => $skala,
+				'deskripsi'      => $deskripsi,
+			);
+
+			if($this->m_kuesioner->input_data($data,'kuesioner')){
+				echo goResult(true,"Data Telah Di Tambahkan");
+				return;
+			}
+		}
+		else if ($url=="update" && $id!=null) {
+			$data['type']    = "update";
+			$where           = array('id_kuesioner' => $id);
+			$data['kuesioner'] = $this->m_kuesioner->detail($where,'kuesioner')->row();
+
+			$data['soal'] = $this->m_soal->tampilByKuesioner($where,'soal')->result();
+
+			echo $this->blade->nggambar('admin.kuesioner.content',$data);
+		}
+		else if ($url=="jawab" && $id!=null) {
+			$data['type']    = "update";
+			$where           = array('id_kuesioner' => $id);
+			$data['kuesioner'] = $this->m_kuesioner->detail($where,'kuesioner')->row();
+
+			$data['soal'] = $this->m_soal->tampilByKuesioner($where,'soal')->result();
+
+			echo $this->blade->nggambar('admin.kuesioner.jawab',$data);
+		}
+		else if ($url=="updated" && $id!=null && $this->input->is_ajax_request() == true) {
+			$where           = array('id_kuesioner' => $id);
+
+			$kode      = $this->input->post('kode_kuesioner');
+			$judul     = $this->input->post('judul');
+			$skala     = $this->input->post('skala');
+			$deskripsi = $this->input->post('deskripsi');
+
+			$data = array(
+				'kode_kuesioner' => $kode,
+				'judul'          => $judul,
+				'skala'          => $skala,
+				'deskripsi'      => $deskripsi,
+			);
+
+			if($this->m_kuesioner->update_data($where,$data,'kuesioner')){
+				echo goResult(true,"Data Telah Di Tambahkan");
+				return;
+			}
+		}
+		else if ($url=="deleted" && $id != null) {
+			$where           = array('id_kuesioner' => $id);
+			if ($this->m_kuesioner->hapus_data($where,'kuesioner')) {
+
+			}
+			redirect('superuser/kuesioner/');
+		}
+		else {
+			echo $this->blade->nggambar('admin.hasil.index',$data);
+			return;
+		}
+	}
+	// End hasil 
+	
 
 
 

@@ -24,9 +24,9 @@ Dashboard - Administrasi
 
 				<!-- Content area -->
 				<div class="content">
-
+					<h1>Coming Soon</h1>
 					<!-- Basic datatable -->
-					<div class="panel panel-flat">
+					{{-- <div class="panel panel-flat">
 						<div class="panel-heading">
 							<h5 class="panel-title">Daftar Kuesioner</h5>
 							<div class="heading-elements">
@@ -38,42 +38,35 @@ Dashboard - Administrasi
 		                	</div>
 						</div>
 						<div class="panel-heading">
-							
 							<a href="{{base_url('superuser/kuesioner/create')}}"><button type="button" class="btn bg-teal-400 btn-labeled"><b><i class="icon-plus-circle2"></i></b> Tambah Kuesioner</button></a>
 						</div>
 						<table class="table table-striped datatable-basic table-lg table-responsive">
 		                    <thead>
 		                        <tr>
 		                        	<th>No</th>
-		                        	<th>Kode</th>
-		                            <th>Judul</th>
-		                            <th>Total Soal</th>
-		                            <th>Jumlah Responden Menjawab</th>
+		                            <th>NIM/NBI/NIP</th>
+		                            <th>Nama</th>
+		                            <th>Instansi</th>
 		                            <th class="text-center">Aksi</th>
 		                        </tr>
 		                    </thead>
 		                    <tbody>
-		                    	@foreach($kuesioner as $key => $result)
+		                    	@foreach($responden as $key => $result)
 		                         <tr>
 		                        	<td align="center">{{($key+1)}}</td>
 			                        <td style="width:300px;">
-			                        	<a href="{{base_url('superuser/kuesioner/update/'.$result->id_kuesioner.'/'.seo($result->judul))}}">
-			                        	{{$result->kode_kuesioner}}
+			                        	<a href="{{base_url('superuser/kuesioner/update/'.$result->id_responden.'/'.seo($result->nama))}}">
+			                        	{{$result->nim}}
 			                        	</a><br>			                  
 			                        </td>
 			                        <td class="text-center">
 			                        	<span class="text-size-small text-muted">
-			                        		{{$result->judul}} ({{$result->skala}})
+			                        		{{$result->nama}}
 			                        	</span>
 			                        </td>
 			                        <td class="text-center">
 			                        	<span class="text-size-small text-muted">
-			                        		{{countSoal($result)}}
-			                        	</span>
-			                        </td>
-			                        <td class="text-center">
-			                        	<span class="text-size-small text-muted">
-			                        		{{countJawaban($result)}}
+			                        		{{$result->instansi." - ".$result->jurusan}}
 			                        	</span>
 			                        </td>
 			                        <td class="text-center">
@@ -81,17 +74,12 @@ Dashboard - Administrasi
 					                    	<button type="button" class="btn btn-danger btn-sm btn-rounded dropdown-toggle" data-toggle="dropdown"><i class="icon-cog5 position-left"></i> Action <span class="caret"></span></button>
 					                    	<ul class="dropdown-menu dropdown-menu-right">
 												<li>
-													<a href="{{base_url('superuser/kuesioner/jawab/'.$result->id_kuesioner)}}">
-														<i class="fa fa-edit"></i> Jawab Kuesioner
-													</a>
-												</li>
-												<li>
-													<a href="{{base_url('superuser/kuesioner/update/'.$result->id_kuesioner)}}">
+													<a href="{{base_url('superuser/kuesioner/update/'.$result->id_responden)}}">
 														<i class="fa fa-edit"></i> Ubah Kuesioner
 													</a>
 												</li>
 												<li><a href="javascript:void(0)" onclick="deleteIt(this)" 
-												data-url="{{base_url('superuser/kuesioner/deleted/'.$result->id_kuesioner)}}">
+												data-url="{{base_url('superuser/kuesioner/deleted/'.$result->id_responden)}}">
 														<i class="fa fa-trash"></i> Hapus Kuesioner
 													</a>
 												</li>
@@ -102,7 +90,7 @@ Dashboard - Administrasi
 		                        @endforeach
 		                    </tbody>
 		                </table>
-					</div>
+					</div> --}}
 					<!-- /basic datatable -->					
 
 				</div>
