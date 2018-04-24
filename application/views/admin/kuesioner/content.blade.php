@@ -124,7 +124,7 @@ Dashboard - Administrasi
 					                    	<button type="button" class="btn btn-danger btn-sm btn-rounded dropdown-toggle" data-toggle="dropdown"><i class="icon-cog5 position-left"></i> Action <span class="caret"></span></button>
 					                    	<ul class="dropdown-menu dropdown-menu-right">
 												<li>		
-													<a href="" data-toggle="modal" data-target="#modal_soal">
+													<a href="javascript:void(0)" onclick="editIt({{$result->id_soal}})">
 														<i class="fa fa-edit"></i> Ubah Kuesioner
 													</a>
 												</li>
@@ -159,9 +159,9 @@ Dashboard - Administrasi
 										<div class="form-group">
 											<label class="control-label col-sm-3">Soal</label>
 											<div class="col-sm-9">
-												<input type="hidden" name="id_soal" value="">
-												<input type="hidden" name="id_kuesioner" value="{{ $kuesioner->id_kuesioner}}">
-												<textarea rows="10" id="editor-full" cols="100" class="wysihtml5 wysihtml5-default2 form-control"  name="soal" ></textarea>
+												<input type="hidden" name="id_soal" id="id_soal" value="">
+												<input type="hidden" name="id_kuesioner" id="id_kuesioner" value="{{ $kuesioner->id_kuesioner}}">
+												<textarea rows="10" id="editor-full" cols="100" class="wysihtml5 isisoal wysihtml5-default2 form-control"  name="soal" ></textarea>
 												<br>
 												<select name="jenis">
 													<option value="positif">POSITIF</option>
@@ -205,6 +205,31 @@ Dashboard - Administrasi
 
 
 	$(".switch").bootstrapSwitch();	
+ 	
+
+ 	function editIt(id){
+ 		console.log(id);
+ 		 $.ajax({
+				url: 		"{{base_url('superuser/getsoalajax?id_soal=')}}"+id,
+				method: 	"POST",
+          		processData: false,
+          		contentType: false,
+          		dataType:'json',
+				beforeSend: function(){
+					blockMessage($('#form-blog'),'Please Wait ,','#fff');		
+				}
+			})
+			.done(function(data){
+				$("#modal_soal").modal('show');
+				$("#id_soal").val(data.id_soal);
+				$(".isisoal").val(data.soal);
+				$('#formSoal').attr('action', '{{base_url('superuser/soal/updated')}}');
+			})
+			.fail(function() {
+
+			})
+
+ 	}
 
 	$('#formSoal').submit(function(e){
 		e.preventDefault();

@@ -15,6 +15,12 @@ class M_soal extends CI_Model {
 		// return $this->db->get($table);
 	}
 
+	function search($search,$table){
+	    $where = array('id_soal', $search);
+		return $this->db->get_where($table,$where);
+		// return $this->db->get($table);
+	}
+
 	function tampilByKuesioner($where,$table){	
 		return $this->db->get_where($table,$where);
 	}
