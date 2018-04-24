@@ -223,7 +223,7 @@ Dashboard - Administrasi
 				$("#modal_soal").modal('show');
 				$("#id_soal").val(data.id_soal);
 				$(".isisoal").val(data.soal);
-				$('#formSoal').attr('action', '{{base_url('superuser/soal/updated')}}');
+				$('#formSoal').attr('action', '{{base_url('superuser/soal/updated/')}}'+data.id_soal);
 			})
 			.fail(function() {
 
