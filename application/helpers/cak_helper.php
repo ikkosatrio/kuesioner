@@ -358,6 +358,23 @@ if ( ! function_exists('countSoal'))
 	}
 }
 
+if ( ! function_exists('countJawaban')) 
+{
+	function countJawaban($kuesioner)
+	{
+	    $CI =& get_instance();
+
+	    $query = $CI->db->query("SELECT * FROM jawaban WHERE id_kuesioner = $kuesioner->id_kuesioner");
+	    if($query->num_rows() > 0)
+	    {
+	        return $query->num_rows();
+	    }else
+	    {
+	        return 0; 
+	    }
+	}
+}
+
 
 // ------------------------------------------------------------------------
 if (!function_exists('tgl_indo')){

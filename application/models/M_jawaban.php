@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class M_responden extends CI_Model {
+class M_jawaban extends CI_Model {
 
 	public $variable;
 
@@ -15,30 +15,17 @@ class M_responden extends CI_Model {
 		// return $this->db->get($table);
 	}
 
-	function search($search){
-		$this->db->select('*');
-	    $this->db->from('responden');
-	    if(!empty($keyword)) {
-	        $this->db->group_start();
-	        $this->db->like('nim', $keyword);
-	        $this->db->or_like('nama', $keyword);
-	        $this->db->group_end();
-	    }
-
-		return $query = $this->db->get();
-		// return $this->db->get($table);
+	function tampilByKuesioner($where,$table){	
+		return $this->db->get_where($table,$where);
 	}
 
-	function search_reponden($title){
-        $this->db->like('nama', $title , 'both');
-        $this->db->order_by('nama', 'ASC');
-        $this->db->limit(10);
-        return $this->db->get('responden')->result();
-    }
-
+	function countSoal($where,$table){	
+		return $this->db->get_where($table,$where);
+	}
 
 	function input_data($data,$table){
 		$this->db->insert($table,$data);
+		return $this->db->insert_id();
 	}
 	
 	function detail($where,$table){	

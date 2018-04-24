@@ -16,6 +16,8 @@
 	<link href="{{base_url()}}assets/css/colors.css" rel="stylesheet" type="text/css">
 	<link href="{{base_url()}}assets/js/sweetalert.min.css" rel="stylesheet" type="text/css">
 	<link href="{{base_url()}}assets/css/custom2.css" rel="stylesheet" type="text/css">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.css" rel="stylesheet" type="text/css">
+	
 	<!-- /global stylesheets -->
 	@yield('style')
 	<!-- Core JS files -->
@@ -280,9 +282,9 @@
 								<li class="{{match($menu,'dashboard','active')}}"><a href="{{base_url('superuser')}}"><i class="icon-home4"></i> <span>Dashboard</span></a></li>
 								
 									<li class="{{match($menu,'config','active')}}"><a href="{{base_url('superuser/config')}}"><i class="icon-gear"></i> <span>Configurasi Website</span></a></li>
-									<li class="{{match($menu,'anggota','active')}}"><a href="{{base_url('superuser/responden')}}"><i class="icon-users"></i> <span>Responden</span></a></li>
-									<li class="{{match($menu,'bidang','active')}}"><a href="{{base_url('superuser/kuesioner')}}"><i class="icon-clipboard"></i> <span>Kuesioner</span></a></li>
-									<li class="{{match($menu,'peserta','active')}}"><a href="{{base_url('superuser/soal')}}"><i class="icon-stats-bars"></i> <span>Hasil</span></a></li>
+									<li class="{{match($menu,'responden','active')}}"><a href="{{base_url('superuser/responden')}}"><i class="icon-users"></i> <span>Responden</span></a></li>
+									<li class="{{match($menu,'kuesioner','active')}}"><a href="{{base_url('superuser/kuesioner')}}"><i class="icon-clipboard"></i> <span>Kuesioner</span></a></li>
+									<li class="{{match($menu,'hasil','active')}}"><a href="{{base_url('superuser/hasil')}}"><i class="icon-stats-bars"></i> <span>Hasil</span></a></li>
 							</ul>
 						</div>
 					</div>
@@ -321,13 +323,14 @@
 	
 	@yield('corejs')
 	<script type="text/javascript" src="{{base_url()}}assets/js/core/app.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.2/bootstrap3-typeahead.min.js"></script>  
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.2/bootstrap3-typeahead.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.js"></script>    
 	
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/corejs-typeahead/1.2.1/bloodhound.min.js"></script>  
 	<!-- /theme JS files -->
-	@yield('script')
 	<script type="text/javascript" src="{{base_url()}}assets/js/cak-js.js"></script>
 	<script type="text/javascript" src="{{base_url()}}assets/js/sweetalert.min.js"></script>
+	@yield('script')
 	
 
 	<script type="text/javascript">

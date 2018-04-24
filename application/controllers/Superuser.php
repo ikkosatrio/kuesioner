@@ -17,6 +17,7 @@ class Superuser extends CI_Controller {
 		$this->load->model('m_soal');
 		$this->load->model('m_user');
 		$this->load->model('m_responden');
+		$this->load->model('m_jawaban');
 		$this->data['config'] = $this->m_config->ambil('config',1)->row();
 	}
 
@@ -30,6 +31,22 @@ class Superuser extends CI_Controller {
 		echo $this->blade->nggambar('admin.home',$data);
 
 
+	}
+
+	public function autocomplete()
+	{
+		if (isset($_GET['term'])) {
+            $result = $this->m_responden->search_reponden($_GET['term']);
+            if (count($result) > 0) {
+            foreach ($result as $row)
+                $arr_result[] = array(
+                			"nim" => $row->nim,
+                			"nama"=>$row->nama,
+                			"instansi" => $row->instansi,
+                		);
+                echo json_encode($arr_result);
+            }
+        }
 	}
 
 	// Start Config
@@ -135,11 +152,13 @@ class Superuser extends CI_Controller {
 
 			$soal  = $this->input->post('soal');
 			$id_kuesioner  = $this->input->post('id_kuesioner');
+			$jenis  = $this->input->post('jenis');
 
 
 			$data = array(
 				'id_kuesioner' => $id_kuesioner,
 				'soal'       => $soal,
+				'jenis'      => $jenis,
 			);
 
 			if($this->m_soal->input_data($data,'soal')){
@@ -152,6 +171,37 @@ class Superuser extends CI_Controller {
 			$where           = array('id_responden' => $id);
 			$data['responden'] = $this->m_responden->detail($where,'responden')->row();
 			echo $this->blade->nggambar('admin.responden.content',$data);
+		}
+		else if ($url=="jawab" && $this->input->is_ajax_request() == true) {
+
+			$kuesioner = $this->input->post('kuesioner');
+			$nim       = $this->input->post('nim');
+
+			$data = array(
+				'id_kuesioner' => $kuesioner,
+				'nim'       => $nim,
+			); 
+			$id = $this->m_jawaban->input_data($data,'jawaban');
+			
+			$soals = $this->m_responden->tampil_data('soal')->result();
+			foreach ($soals as $soal) {
+				if ($this->input->post('jawaban-'.$soal->id_soal)) {
+					$jawaban = $this->input->post('jawaban-'.$soal->id_soal);
+					$id_soal = $soal->id_soal;
+
+					$arrjawab = array(
+						'id_jawaban' => $id,
+						'id_soal' => $id_soal,
+						'jawaban' => $jawaban,
+ 					);
+
+					$this->m_jawaban->input_data($arrjawab,'detail_jawaban');
+
+				}
+			}
+
+			echo goResult(true,"Data Telah Di Dijawab");
+			return;
 		}
 		else if ($url=="updated" && $id!=null && $this->input->is_ajax_request() == true) {
 			$where           = array('id_responden' => $id);
@@ -281,7 +331,7 @@ class Superuser extends CI_Controller {
 	public function kuesioner($url=null,$id=null)
 	{
 		$data             = $this->data;
-		$data['menu']     = "responden";
+		$data['menu']     = "kuesioner";
 		$data['kuesioner'] = $this->m_kuesioner->tampil_data('kuesioner')->result();
 
 		if ($url=="create") {
@@ -359,6 +409,91 @@ class Superuser extends CI_Controller {
 		}
 	}
 	// End kuesioner
+	
+
+	// Start hasil
+	public function hasil($url=null,$id=null)
+	{
+		$data             = $this->data;
+		$data['menu']     = "hasil";
+		$data['hasil'] = $this->m_kuesioner->tampil_data('kuesioner')->result();
+
+		if ($url=="create") {
+			$data['type']			= "create";
+			echo $this->blade->nggambar('admin.kuesioner.content',$data);
+			return;
+		}
+		else if ($url == "created" && $this->input->is_ajax_request() == true) {
+
+			$kode      = $this->input->post('kode_kuesioner');
+			$judul     = $this->input->post('judul');
+			$skala     = $this->input->post('skala');
+			$deskripsi = $this->input->post('deskripsi');
+
+			$data = array(
+				'kode_kuesioner' => $kode,
+				'judul'          => $judul,
+				'skala'          => $skala,
+				'deskripsi'      => $deskripsi,
+			);
+
+			if($this->m_kuesioner->input_data($data,'kuesioner')){
+				echo goResult(true,"Data Telah Di Tambahkan");
+				return;
+			}
+		}
+		else if ($url=="update" && $id!=null) {
+			$data['type']    = "update";
+			$where           = array('id_kuesioner' => $id);
+			$data['kuesioner'] = $this->m_kuesioner->detail($where,'kuesioner')->row();
+
+			$data['soal'] = $this->m_soal->tampilByKuesioner($where,'soal')->result();
+
+			echo $this->blade->nggambar('admin.kuesioner.content',$data);
+		}
+		else if ($url=="jawab" && $id!=null) {
+			$data['type']    = "update";
+			$where           = array('id_kuesioner' => $id);
+			$data['kuesioner'] = $this->m_kuesioner->detail($where,'kuesioner')->row();
+
+			$data['soal'] = $this->m_soal->tampilByKuesioner($where,'soal')->result();
+
+			echo $this->blade->nggambar('admin.kuesioner.jawab',$data);
+		}
+		else if ($url=="updated" && $id!=null && $this->input->is_ajax_request() == true) {
+			$where           = array('id_kuesioner' => $id);
+
+			$kode      = $this->input->post('kode_kuesioner');
+			$judul     = $this->input->post('judul');
+			$skala     = $this->input->post('skala');
+			$deskripsi = $this->input->post('deskripsi');
+
+			$data = array(
+				'kode_kuesioner' => $kode,
+				'judul'          => $judul,
+				'skala'          => $skala,
+				'deskripsi'      => $deskripsi,
+			);
+
+			if($this->m_kuesioner->update_data($where,$data,'kuesioner')){
+				echo goResult(true,"Data Telah Di Tambahkan");
+				return;
+			}
+		}
+		else if ($url=="deleted" && $id != null) {
+			$where           = array('id_kuesioner' => $id);
+			if ($this->m_kuesioner->hapus_data($where,'kuesioner')) {
+
+			}
+			redirect('superuser/kuesioner/');
+		}
+		else {
+			echo $this->blade->nggambar('admin.hasil.index',$data);
+			return;
+		}
+	}
+	// End hasil 
+	
 
 
 
