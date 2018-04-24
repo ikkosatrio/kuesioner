@@ -56,12 +56,12 @@ Dashboard - Administrasi
 		                    	@foreach($kuesioner as $key => $result)
 		                         <tr>
 		                        	<td align="center">{{($key+1)}}</td>
-			                        <td style="width:300px;">
+			                        <td align="left">
 			                        	<a href="{{base_url('superuser/kuesioner/update/'.$result->id_kuesioner.'/'.seo($result->judul))}}">
 			                        	{{$result->kode_kuesioner}}
 			                        	</a><br>			                  
 			                        </td>
-			                        <td class="text-center">
+			                        <td class="" style="width: 300px">
 			                        	<span class="text-size-small text-muted">
 			                        		{{$result->judul}} ({{$result->skala}})
 			                        	</span>
@@ -73,7 +73,9 @@ Dashboard - Administrasi
 			                        </td>
 			                        <td class="text-center">
 			                        	<span class="text-size-small text-muted">
-			                        		{{countJawaban($result)}}
+			                        		<a href="{{base_url('superuser/kuesioner/listjawaban/'.$result->id_kuesioner)}}">
+				                        		{{countJawaban($result)}}
+				                        	</a>
 			                        	</span>
 			                        </td>
 			                        <td class="text-center">

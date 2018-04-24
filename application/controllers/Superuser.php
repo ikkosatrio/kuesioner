@@ -405,6 +405,15 @@ class Superuser extends CI_Controller {
 
 			echo $this->blade->nggambar('admin.kuesioner.jawab',$data);
 		}
+		else if ($url=="listjawaban" && $id!=null) {
+			$data['type']    = "update";
+			$where           = array('id_kuesioner' => $id);
+			$data['kuesioner'] = $this->m_kuesioner->detail($where,'kuesioner')->row();
+
+			$data['jawaban'] = $this->m_jawaban->detailFull($where,'jawaban')->result();
+
+			echo $this->blade->nggambar('admin.kuesioner.list_jawaban',$data);
+		}
 		else if ($url=="updated" && $id!=null && $this->input->is_ajax_request() == true) {
 			$where           = array('id_kuesioner' => $id);
 
