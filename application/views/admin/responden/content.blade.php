@@ -60,14 +60,14 @@ Dashboard - Administrasi
 							<div class="form-group">
 								<label class="col-lg-2 control-label">Instansi <span class="text-danger"><b>*</b></span></label>
 								<div class="col-lg-10">
-									<input class="form-control" type="text" placeholder="Tahun" name="instansi" 
+									<input class="form-control" type="text" placeholder="Intansi" name="instansi" 
 									value="{{ ($type=='create') ? '' : $responden->instansi }}" required>
 								</div>
 							</div>
 							<div class="form-group">
 								<label class="col-lg-2 control-label">Jurusan <span class="text-danger"><b>*</b></span></label>
 								<div class="col-lg-10">
-									<input class="form-control" type="text" placeholder="Tahun" name="jurusan" 
+									<input class="form-control" type="text" placeholder="Jurusan" name="jurusan" 
 									value="{{ ($type=='create') ? '' : $responden->jurusan }}" required>
 								</div>
 							</div>

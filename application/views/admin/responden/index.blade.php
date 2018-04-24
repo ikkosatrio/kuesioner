@@ -15,7 +15,7 @@ Dashboard - Administrasi
 					<div class="breadcrumb-line">
 						<ul class="breadcrumb">
 							<li><a href="{{base_url('superuser')}}"><i class="icon-home2 position-left"></i> Home</a></li>
-							<li class="active"><a href="#">Kuesioner</a></li>
+							<li class="active"><a href="#">Responden</a></li>
 						</ul>
 					</div>
 				</div>
@@ -28,7 +28,7 @@ Dashboard - Administrasi
 					<!-- Basic datatable -->
 					<div class="panel panel-flat">
 						<div class="panel-heading">
-							<h5 class="panel-title">Daftar Kuesioner</h5>
+							<h5 class="panel-title">Daftar Responden</h5>
 							<div class="heading-elements">
 								<ul class="icons-list">
 			                		<li><a data-action="collapse"></a></li>
@@ -38,7 +38,7 @@ Dashboard - Administrasi
 		                	</div>
 						</div>
 						<div class="panel-heading">
-							<a href="{{base_url('superuser/kuesioner/create')}}"><button type="button" class="btn bg-teal-400 btn-labeled"><b><i class="icon-plus-circle2"></i></b> Tambah Kuesioner</button></a>
+							<a href="{{base_url('superuser/responden/create')}}"><button type="button" class="btn bg-teal-400 btn-labeled"><b><i class="icon-plus-circle2"></i></b> Tambah Responden</button></a>
 						</div>
 						<table class="table table-striped datatable-basic table-lg table-responsive">
 		                    <thead>
@@ -55,7 +55,7 @@ Dashboard - Administrasi
 		                         <tr>
 		                        	<td align="center">{{($key+1)}}</td>
 			                        <td style="width:300px;">
-			                        	<a href="{{base_url('superuser/kuesioner/update/'.$result->id_responden.'/'.seo($result->nama))}}">
+			                        	<a href="{{base_url('superuser/responden/update/'.$result->id_responden.'/'.seo($result->nama))}}">
 			                        	{{$result->nim}}
 			                        	</a><br>			                  
 			                        </td>
@@ -74,13 +74,13 @@ Dashboard - Administrasi
 					                    	<button type="button" class="btn btn-danger btn-sm btn-rounded dropdown-toggle" data-toggle="dropdown"><i class="icon-cog5 position-left"></i> Action <span class="caret"></span></button>
 					                    	<ul class="dropdown-menu dropdown-menu-right">
 												<li>
-													<a href="{{base_url('superuser/kuesioner/update/'.$result->id_responden)}}">
-														<i class="fa fa-edit"></i> Ubah Kuesioner
+													<a href="{{base_url('superuser/responden/update/'.$result->id_responden)}}">
+														<i class="fa fa-edit"></i> Ubah Responden
 													</a>
 												</li>
 												<li><a href="javascript:void(0)" onclick="deleteIt(this)" 
-												data-url="{{base_url('superuser/kuesioner/deleted/'.$result->id_responden)}}">
-														<i class="fa fa-trash"></i> Hapus Kuesioner
+												data-url="{{base_url('superuser/responden/deleted/'.$result->id_responden)}}">
+														<i class="fa fa-trash"></i> Hapus Responden
 													</a>
 												</li>
 											</ul>

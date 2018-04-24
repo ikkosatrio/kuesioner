@@ -111,7 +111,7 @@ Dashboard - Administrasi
 			                    <tbody>
 			                    	@foreach($soal as $key => $result)
 			                         <tr>
-			                        	<td align="center">1</td>
+			                        	<td align="center">{{$key+1}}</td>
 				                        <td class="text-center">
 				                        	<span class="text-size-small text-muted">
 				                        		{{$result->soal}}
