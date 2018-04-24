@@ -53,6 +53,7 @@ Dashboard - Administrasi
 								<div class="col-md-6">
 									<input type="text" id="keyword" name="keyword" class="form-control" value="" placeholder="Pilih Responden (NIM OR NAMA)">
 									<input type="hidden" id="nim" name="nim" class="form-control" value="">
+									<input type="hidden" id="id_responden" name="id_responden" class="form-control" value="">
 									<input type="hidden" id="kuesioner" name="kuesioner" class="form-control" value="{{$kuesioner->id_kuesioner}}">
 								</div>
 								<div class="col-md-6">
@@ -123,6 +124,7 @@ Dashboard - Administrasi
         		 $('#responden').hide("slide")
         		 $('#nim').val();
         		 $("#keyword").val();
+        		 $('#id_responden').val();
         	});
 
             $( "#keyword" ).autocomplete({
@@ -138,6 +140,7 @@ Dashboard - Administrasi
                     $('#nama_responden').text(ui.item.nama); 
                     $('#instansi_responden').text(ui.item.instansi); 
                     $('#nim').val(ui.item.nim);
+                    $('#id_responden').val(ui.item.id_responden);
                     return false;
                 }
             }).autocomplete( "instance" )._renderItem = function( ul, item ) {

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 24, 2018 at 05:09 PM
+-- Generation Time: Apr 24, 2018 at 05:24 PM
 -- Server version: 10.1.30-MariaDB
 -- PHP Version: 5.6.33
 
@@ -58,36 +58,11 @@ INSERT INTO `config` (`id`, `name`, `email`, `phone`, `address`, `description`, 
 --
 
 CREATE TABLE `detail_jawaban` (
+  `id_detail` int(11) NOT NULL,
   `id_jawaban` int(11) NOT NULL,
   `id_soal` int(11) NOT NULL,
   `jawaban` char(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `detail_jawaban`
---
-
-INSERT INTO `detail_jawaban` (`id_jawaban`, `id_soal`, `jawaban`) VALUES
-(0, 10, '1'),
-(0, 11, '2'),
-(0, 12, '2'),
-(0, 13, '2'),
-(0, 14, '2'),
-(0, 15, '2'),
-(0, 16, '2'),
-(0, 17, '2'),
-(0, 18, '2'),
-(0, 19, '2'),
-(0, 20, '2'),
-(0, 21, '2'),
-(0, 22, '3'),
-(0, 23, '3'),
-(0, 24, '4'),
-(0, 25, '3'),
-(0, 26, '4'),
-(0, 27, '3'),
-(0, 28, '2'),
-(0, 29, '3');
 
 -- --------------------------------------------------------
 
@@ -101,13 +76,6 @@ CREATE TABLE `jawaban` (
   `id_responden` int(11) NOT NULL,
   `hasil` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `jawaban`
---
-
-INSERT INTO `jawaban` (`id_jawaban`, `id_kuesioner`, `id_responden`, `hasil`) VALUES
-(0, 1, 1461404973, 34);
 
 -- --------------------------------------------------------
 
@@ -565,6 +533,12 @@ ALTER TABLE `config`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `detail_jawaban`
+--
+ALTER TABLE `detail_jawaban`
+  ADD PRIMARY KEY (`id_detail`);
+
+--
 -- Indexes for table `jawaban`
 --
 ALTER TABLE `jawaban`
@@ -604,6 +578,18 @@ ALTER TABLE `user`
 --
 ALTER TABLE `config`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `detail_jawaban`
+--
+ALTER TABLE `detail_jawaban`
+  MODIFY `id_detail` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=100;
+
+--
+-- AUTO_INCREMENT for table `jawaban`
+--
+ALTER TABLE `jawaban`
+  MODIFY `id_jawaban` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `kuesioner`

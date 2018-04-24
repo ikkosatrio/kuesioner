@@ -40,6 +40,7 @@ class Superuser extends CI_Controller {
             if (count($result) > 0) {
             foreach ($result as $row)
                 $arr_result[] = array(
+                			"id_responden" => $row->id_responden,
                 			"nim" => $row->nim,
                 			"nama"=>$row->nama,
                 			"instansi" => $row->instansi,
@@ -175,7 +176,7 @@ class Superuser extends CI_Controller {
 		else if ($url=="jawab" && $this->input->is_ajax_request() == true) {
 
 			$kuesioner = $this->input->post('kuesioner');
-			$nim       = $this->input->post('nim');
+			$nim       = $this->input->post('id_responden');
 
 			$data = array(
 				'id_kuesioner' => $kuesioner,
@@ -218,7 +219,7 @@ class Superuser extends CI_Controller {
 			$this->m_jawaban->update_data($dataid,$datajawab,'jawaban');
 
 
-			echo goResult(true,"Data Telah Di Dijawab");
+			echo goResult(true,"Data Telah Di Dijawab dengan Hasil $hasil");
 			return;
 		}
 		else if ($url=="updated" && $id!=null && $this->input->is_ajax_request() == true) {
