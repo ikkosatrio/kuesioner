@@ -19,6 +19,14 @@ class M_jawaban extends CI_Model {
 		return $this->db->get_where($table,$where);
 	}
 
+	function detailFull($where,$table){	
+		$this->db->from($table);
+		$this->db->where($where);
+		$this->db->join('responden','responden.id_responden=jawaban.id_responden');
+		return $query = $this->db->get();
+		// return $this->db->get_where($table,$where);
+	}
+
 	function countSoal($where,$table){	
 		return $this->db->get_where($table,$where);
 	}
