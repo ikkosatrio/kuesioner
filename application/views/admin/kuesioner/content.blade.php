@@ -105,6 +105,7 @@ Dashboard - Administrasi
 			                        <tr>
 			                        	<th>No</th>
 			                        	<th>Soal</th>
+			                        	<th>Jenis</th>
 			                            <th class="text-center">Aksi</th>
 			                        </tr>
 			                    </thead>
@@ -112,11 +113,12 @@ Dashboard - Administrasi
 			                    	@foreach($soal as $key => $result)
 			                         <tr>
 			                        	<td align="center">{{$key+1}}</td>
-				                        <td class="text-center">
+				                        <td class="">
 				                        	<span class="text-size-small text-muted">
 				                        		{{$result->soal}}
 				                        	</span>
 				                        </td>
+				                        <td align="center">{{$result->jenis}}</td>
 				                        <td class="text-center">
 				                           <div class="btn-group">
 					                    	<button type="button" class="btn btn-danger btn-sm btn-rounded dropdown-toggle" data-toggle="dropdown"><i class="icon-cog5 position-left"></i> Action <span class="caret"></span></button>

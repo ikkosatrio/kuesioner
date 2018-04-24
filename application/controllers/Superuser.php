@@ -179,11 +179,14 @@ class Superuser extends CI_Controller {
 
 			$data = array(
 				'id_kuesioner' => $kuesioner,
-				'nim'       => $nim,
+				'id_responden'       => $nim,
 			); 
 			$id = $this->m_jawaban->input_data($data,'jawaban');
 			
 			$soals = $this->m_responden->tampil_data('soal')->result();
+
+			$hasil = 0;
+
 			foreach ($soals as $soal) {
 				if ($this->input->post('jawaban-'.$soal->id_soal)) {
 					$jawaban = $this->input->post('jawaban-'.$soal->id_soal);
@@ -195,10 +198,25 @@ class Superuser extends CI_Controller {
 						'jawaban' => $jawaban,
  					);
 
+ 					$hasil = $hasil + $this->hitungSoal($soal->jenis,$jawaban);
+
 					$this->m_jawaban->input_data($arrjawab,'detail_jawaban');
 
 				}
 			}
+
+			$dataid = array(
+					'id_jawaban' => $id,
+			);
+
+			$datajawab = array(
+					'hasil' => $hasil,
+			);
+
+
+
+			$this->m_jawaban->update_data($dataid,$datajawab,'jawaban');
+
 
 			echo goResult(true,"Data Telah Di Dijawab");
 			return;
@@ -236,6 +254,16 @@ class Superuser extends CI_Controller {
 		}
 	}
 	// End soal
+	// 
+	function hitungSoal($jenis,$jawaban){
+
+		if ($jenis == 'positif') {
+			return ($jawaban - 1);
+		}else if ($jenis == 'negatif') {
+			return (5 - $jawaban);
+		}
+
+	}
 
 	function countSoal($id_kuesioner=null)
 	{

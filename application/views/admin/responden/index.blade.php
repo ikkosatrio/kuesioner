@@ -53,18 +53,18 @@ Dashboard - Administrasi
 		                    <tbody>
 		                    	@foreach($responden as $key => $result)
 		                         <tr>
-		                        	<td align="center">{{($key+1)}}</td>
-			                        <td style="width:300px;">
+		                        	<td align="left">{{($key+1)}}</td>
+			                        <td style="">
 			                        	<a href="{{base_url('superuser/responden/update/'.$result->id_responden.'/'.seo($result->nama))}}">
 			                        	{{$result->nim}}
 			                        	</a><br>			                  
 			                        </td>
-			                        <td class="text-center">
-			                        	<span class="text-size-small text-muted">
+			                        <td class="">
+			                        	<span class="text-size-small">
 			                        		{{$result->nama}}
 			                        	</span>
 			                        </td>
-			                        <td class="text-center">
+			                        <td class="">
 			                        	<span class="text-size-small text-muted">
 			                        		{{$result->instansi." - ".$result->jurusan}}
 			                        	</span>

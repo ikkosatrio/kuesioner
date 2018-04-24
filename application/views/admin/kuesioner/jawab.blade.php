@@ -76,7 +76,7 @@ Dashboard - Administrasi
 		                    	@foreach($soal as $key => $result)
 			                         <tr>
 			                        	<td align="center">{{$key+1}}</td>
-				                        <td class="text-center">
+				                        <td class="">
 				                        	<span class="text-size-small text-muted">
 				                        		{{$result->soal}}
 				                        	</span>
@@ -118,10 +118,13 @@ Dashboard - Administrasi
 @section('script')
 	 <script type="text/javascript">
         $(document).ready(function(){
+
         	$("#btnReset").click(function(){
         		 $('#responden').hide("slide")
         		 $('#nim').val();
+        		 $("#keyword").val();
         	});
+
             $( "#keyword" ).autocomplete({
               source: "{{base_url('superuser/autocomplete')}}",
               focus: function( event, ui ) {
@@ -175,6 +178,9 @@ Dashboard - Administrasi
 						},
 						function(){
 							if(data.auth!=false){
+								// $("#formjawab")
+								 $("#btnReset").click();
+								 $('#formjawab')[0].reset();
 								// redirect("{{base_url('superuser/kuesioner/update/'.$kuesioner->id_kuesioner)}}");		
 								return;
 							}
