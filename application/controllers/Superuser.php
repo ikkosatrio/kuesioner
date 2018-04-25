@@ -50,6 +50,21 @@ class Superuser extends CI_Controller {
         }
 	}
 
+	public function getsoalajax(){
+		if (isset($_GET['id_soal'])) {
+
+		$where = array('id_soal' => $_GET['id_soal']);
+		$row = $this->m_soal->detail($where,'soal')->row();
+
+		        $arr_result = array(
+                			"id_soal" => $row->id_soal,
+                			"soal" => $row->soal,
+                			"jenis"=>$row->jenis,
+                		);
+                echo json_encode($arr_result);
+        }
+	}
+
 	// Start Config
 	public function config ($type=null){
 		$data         = $this->data;
@@ -155,7 +170,7 @@ class Superuser extends CI_Controller {
 			$id_kuesioner  = $this->input->post('id_kuesioner');
 			$jenis  = $this->input->post('jenis');
 
-
+			
 			$data = array(
 				'id_kuesioner' => $id_kuesioner,
 				'soal'       => $soal,
@@ -209,6 +224,8 @@ class Superuser extends CI_Controller {
 			$dataid = array(
 					'id_jawaban' => $id,
 			);
+
+			$hasil = $hasil * 2.5;
 
 			$datajawab = array(
 					'hasil' => $hasil,
@@ -411,6 +428,7 @@ class Superuser extends CI_Controller {
 			$data['kuesioner'] = $this->m_kuesioner->detail($where,'kuesioner')->row();
 
 			$data['jawaban'] = $this->m_jawaban->detailFull($where,'jawaban')->result();
+			$data['total'] = $this->m_jawaban->detailFull($where,'jawaban')->num_rows();
 
 			echo $this->blade->nggambar('admin.kuesioner.list_jawaban',$data);
 		}
