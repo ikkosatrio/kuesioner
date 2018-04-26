@@ -31,6 +31,10 @@ class M_jawaban extends CI_Model {
 		return $this->db->get_where($table,$where);
 	}
 
+	function checkresponden($where,$table){
+		return $this->db->get_where($table,$where);
+	}
+
 	function input_data($data,$table){
 		$this->db->insert($table,$data);
 		return $this->db->insert_id();
