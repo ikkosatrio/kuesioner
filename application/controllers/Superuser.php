@@ -218,6 +218,14 @@ class Superuser extends CI_Controller {
 				'id_kuesioner' => $kuesioner,
 				'id_responden'       => $nim,
 			); 
+
+			$result = $this->m_jawaban->checkresponden($data,'jawaban')->num_rows();
+
+			if ($result != 0) {
+				echo goResult(false,"Responden ini telah menjawab");
+				return;
+			}
+
 			$id = $this->m_jawaban->input_data($data,'jawaban');
 			
 			$soals = $this->m_responden->tampil_data('soal')->result();
