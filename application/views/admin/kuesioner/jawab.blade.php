@@ -66,7 +66,7 @@ Dashboard - Administrasi
 							</div>
 						</div>
 						<table class="table table-striped table-lg table-responsive">
-		                    <thead class="bg-teal-400">
+		                    <thead class="bg-blue">
 		                        <tr>
 		                        	<th>No</th>
 		                        	<th>Soal</th>
@@ -78,7 +78,7 @@ Dashboard - Administrasi
 			                         <tr>
 			                        	<td align="center">{{$key+1}}</td>
 				                        <td class="">
-				                        	<span class="text-size-small text-muted">
+				                        	<span class="text-size-small">
 				                        		{{$result->soal}}
 				                        	</span>
 				                        </td>

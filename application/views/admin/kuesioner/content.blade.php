@@ -161,15 +161,15 @@ Dashboard - Administrasi
 											<div class="col-sm-9">
 												<input type="hidden" name="id_soal" id="id_soal" value="">
 												<input type="hidden" name="id_kuesioner" id="id_kuesioner" value="{{ $kuesioner->id_kuesioner}}">
-												<textarea placeholder="Masukkan Soal" rows="10" id="editor-full" cols="100" class="wysihtml5 isisoal wysihtml5-default2 form-control"  name="soal" ></textarea>
+												<textarea required="true" placeholder="Masukkan Soal" rows="10" id="editor-full" cols="100" class="wysihtml5 isisoal wysihtml5-default2 form-control"  name="soal" ></textarea>
 												<br>
-												<select name="jenis" class="form-control">
+												<select required="true" name="jenis" class="form-control">
 													<option value="">=Pilih Jenis=</option>
 													<option value="positif">POSITIF</option>
 													<option value="negatif">NEGATIF</option>
 												</select>
 												<br>
-												<select name="aspek" class="form-control">
+												<select required="true" name="aspek" class="form-control">
 													<option value="">=Pilih ASPEK=</option>
 													<option value="1">Efficiency</option>
 													<option value="2">Memorability</option>
