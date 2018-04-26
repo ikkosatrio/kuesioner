@@ -428,7 +428,15 @@ class Superuser extends CI_Controller {
 			$data['kuesioner'] = $this->m_kuesioner->detail($where,'kuesioner')->row();
 
 			$data['jawaban'] = $this->m_jawaban->detailFull($where,'jawaban')->result();
+
+			$hasil = 0;
+			foreach ($data['jawaban'] as $row) {
+				$hasil = $hasil + $row->hasil;
+			}
+
+			
 			$data['total'] = $this->m_jawaban->detailFull($where,'jawaban')->num_rows();
+			$data['total'] = $hasil / $data['total'];
 
 			echo $this->blade->nggambar('admin.kuesioner.list_jawaban',$data);
 		}
