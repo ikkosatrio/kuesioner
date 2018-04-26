@@ -87,7 +87,7 @@ Dashboard - Administrasi
 												@for ($i = 1; $i <= $kuesioner->skala; $i++)
 												<div class="radio-inline">
 													<label>
-														<input type="radio" name="jawaban-{{$result->id_soal}}" value="{{$i}}">
+														<input type="radio" required="true" name="jawaban-{{$result->id_soal}}" value="{{$i}}">
 														{{$i}}
 													</label>
 												</div>

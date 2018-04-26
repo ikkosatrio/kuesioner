@@ -30,7 +30,8 @@ class M_responden extends CI_Model {
 	}
 
 	function search_reponden($title){
-        $this->db->like('nama', $title , 'both');
+        $this->db->or_like('nama', $title , 'both');
+        $this->db->or_like('nim', $title , 'both');
         $this->db->order_by('nama', 'ASC');
         $this->db->limit(10);
         return $this->db->get('responden')->result();
