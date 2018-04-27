@@ -50,6 +50,27 @@ class Superuser extends CI_Controller {
         }
 	}
 
+	public function checkresponden()
+	{
+		if (isset($_POST['id_responden'])) {
+			$where = array(
+				'id_responden' => $_POST['id_responden'],
+				'id_kuesioner' => $_POST['id_kuesioner']
+			);
+			$result = $this->m_jawaban->checkresponden($where,'jawaban')->num_rows();
+
+			if ($result != 0) {
+				echo json_encode( array(
+					'Message' => 'Responden Sudah Mengisi',
+				));
+			}else{
+				echo json_encode(array(
+					'Message' => 'Ok',
+				));
+			}
+		}
+	}
+
 	public function getsoalajax(){
 		if (isset($_GET['id_soal'])) {
 
@@ -197,6 +218,14 @@ class Superuser extends CI_Controller {
 				'id_kuesioner' => $kuesioner,
 				'id_responden'       => $nim,
 			); 
+
+			$result = $this->m_jawaban->checkresponden($data,'jawaban')->num_rows();
+
+			if ($result != 0) {
+				echo goResult(false,"Responden ini telah menjawab");
+				return;
+			}
+
 			$id = $this->m_jawaban->input_data($data,'jawaban');
 			
 			$soals = $this->m_responden->tampil_data('soal')->result();
@@ -376,8 +405,8 @@ class Superuser extends CI_Controller {
 	// Start kuesioner
 	public function kuesioner($url=null,$id=null)
 	{
-		$data             = $this->data;
-		$data['menu']     = "kuesioner";
+		$data              = $this->data;
+		$data['menu']      = "kuesioner";
 		$data['kuesioner'] = $this->m_kuesioner->tampil_data('kuesioner')->result();
 
 		if ($url=="create") {

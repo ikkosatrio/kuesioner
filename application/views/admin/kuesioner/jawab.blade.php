@@ -66,7 +66,7 @@ Dashboard - Administrasi
 							</div>
 						</div>
 						<table class="table table-striped table-lg table-responsive">
-		                    <thead class="bg-teal-400">
+		                    <thead class="bg-blue">
 		                        <tr>
 		                        	<th>No</th>
 		                        	<th>Soal</th>
@@ -78,7 +78,7 @@ Dashboard - Administrasi
 			                         <tr>
 			                        	<td align="center">{{$key+1}}</td>
 				                        <td class="">
-				                        	<span class="text-size-small text-muted">
+				                        	<span class="text-size-small">
 				                        		{{$result->soal}}
 				                        	</span>
 				                        </td>
@@ -87,7 +87,7 @@ Dashboard - Administrasi
 												@for ($i = 1; $i <= $kuesioner->skala; $i++)
 												<div class="radio-inline">
 													<label>
-														<input type="radio" name="jawaban-{{$result->id_soal}}" value="{{$i}}">
+														<input type="radio" required="true" name="jawaban-{{$result->id_soal}}" value="{{$i}}">
 														{{$i}}
 													</label>
 												</div>
@@ -135,12 +135,25 @@ Dashboard - Administrasi
 		        return false;
 		      },
               select: function (event, ui) {
-                    $('#responden').show("slide")
-                    $(this).val(ui.item.nama); 
-                    $('#nama_responden').text(ui.item.nama); 
-                    $('#instansi_responden').text(ui.item.instansi); 
-                    $('#nim').val(ui.item.nim);
-                    $('#id_responden').val(ui.item.id_responden);
+                    $.ajax({
+					  method: "POST",
+					  url: "{{base_url('superuser/checkresponden')}}",
+					  data: { id_responden: ui.item.id_responden,id_kuesioner:{{$kuesioner->id_kuesioner}} },
+					  dataType:'json',
+					})
+					  .done(function( msg ) {
+					    if (msg.Message == 'Ok') {
+					    	$('#responden').show("slide")
+		                    $(this).val(ui.item.nama); 
+		                    $('#nama_responden').text(ui.item.nama); 
+		                    $('#instansi_responden').text(ui.item.instansi); 
+		                    $('#nim').val(ui.item.nim);
+		                    $('#id_responden').val(ui.item.id_responden);
+					    }else{
+					    	$('#keyword').val(); 
+					    	swal("Hahaha!", "Responden "+ui.item.nama+" sudah mengisi", "error");
+					    }
+					  });
                     return false;
                 }
             }).autocomplete( "instance" )._renderItem = function( ul, item ) {
