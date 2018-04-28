@@ -18,6 +18,9 @@ class Superuser extends CI_Controller {
 		$this->load->model('m_user');
 		$this->load->model('m_responden');
 		$this->load->model('m_jawaban');
+		$this->data['nkuesioner'] =  $this->m_kuesioner->tampil_data('kuesioner')->num_rows();
+		$this->data['nsoal']      =  $this->m_soal->tampil_data('soal')->num_rows();
+		$this->data['nresponden'] =  $this->m_responden->tampil_data('responden')->num_rows();
 		$this->data['config'] = $this->m_config->ambil('config',1)->row();
 	}
 
