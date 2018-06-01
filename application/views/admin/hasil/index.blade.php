@@ -24,77 +24,92 @@ Dashboard - Administrasi
 
 				<!-- Content area -->
 				<div class="content">
-					<h1>Coming Soon</h1>
+					{{-- <h1>Coming Soon</h1> --}}
 					<!-- Basic datatable -->
-					{{-- <div class="panel panel-flat">
+					<div class="panel panel-flat">
 						<div class="panel-heading">
-							<h5 class="panel-title">Daftar Kuesioner</h5>
-							<div class="heading-elements">
-								<ul class="icons-list">
-			                		<li><a data-action="collapse"></a></li>
-			                		<li><a data-action="reload"></a></li>
-			                		<li><a data-action="close"></a></li>
-			                	</ul>
-		                	</div>
+							<h5 class="panel-title">Hasil Kuesioner</h5>
+							<div class="row">
+								<div class="col-md-6">
+									<input type="text" id="keyword" name="keyword" class="form-control" value="" placeholder="Pilih Kode Kuesioner">
+									<input type="hidden" id="id_kuesioner" name="id_kuesioner" class="form-control" value="">
+								</div>
+								<div class="col-md-6">
+									<button type="button" onclick="getHasil()" class="btn bg-danger-400 btn-labeled"><b><i class="icon-clipboard"></i></b>Hasil</button>
+								</div>
+							</div>
 						</div>
 						<div class="panel-heading">
-							<a href="{{base_url('superuser/kuesioner/create')}}"><button type="button" class="btn bg-teal-400 btn-labeled"><b><i class="icon-plus-circle2"></i></b> Tambah Kuesioner</button></a>
+							<canvas id="canvas"></canvas>
+							{{-- <a href="{{base_url('superuser/kuesioner/create')}}"><button type="button" class="btn bg-teal-400 btn-labeled"><b><i class="icon-plus-circle2"></i></b> Tambah Kuesioner</button></a> --}}
 						</div>
-						<table class="table table-striped datatable-basic table-lg table-responsive">
-		                    <thead>
-		                        <tr>
-		                        	<th>No</th>
-		                            <th>NIM/NBI/NIP</th>
-		                            <th>Nama</th>
-		                            <th>Instansi</th>
-		                            <th class="text-center">Aksi</th>
-		                        </tr>
-		                    </thead>
-		                    <tbody>
-		                    	@foreach($responden as $key => $result)
-		                         <tr>
-		                        	<td align="center">{{($key+1)}}</td>
-			                        <td style="width:300px;">
-			                        	<a href="{{base_url('superuser/kuesioner/update/'.$result->id_responden.'/'.seo($result->nama))}}">
-			                        	{{$result->nim}}
-			                        	</a><br>			                  
-			                        </td>
-			                        <td class="text-center">
-			                        	<span class="text-size-small text-muted">
-			                        		{{$result->nama}}
-			                        	</span>
-			                        </td>
-			                        <td class="text-center">
-			                        	<span class="text-size-small text-muted">
-			                        		{{$result->instansi." - ".$result->jurusan}}
-			                        	</span>
-			                        </td>
-			                        <td class="text-center">
-			                           <div class="btn-group">
-					                    	<button type="button" class="btn btn-danger btn-sm btn-rounded dropdown-toggle" data-toggle="dropdown"><i class="icon-cog5 position-left"></i> Action <span class="caret"></span></button>
-					                    	<ul class="dropdown-menu dropdown-menu-right">
-												<li>
-													<a href="{{base_url('superuser/kuesioner/update/'.$result->id_responden)}}">
-														<i class="fa fa-edit"></i> Ubah Kuesioner
-													</a>
-												</li>
-												<li><a href="javascript:void(0)" onclick="deleteIt(this)" 
-												data-url="{{base_url('superuser/kuesioner/deleted/'.$result->id_responden)}}">
-														<i class="fa fa-trash"></i> Hapus Kuesioner
-													</a>
-												</li>
-											</ul>
-										</div>
-			                        </td>
-		                        </tr>
-		                        @endforeach
-		                    </tbody>
-		                </table>
-					</div> --}}
+						
+					</div>
 					<!-- /basic datatable -->					
 
 				</div>
 				<!-- /content area -->
 
 			</div>
+@endsection
+@section('script')
+	<script>
+
+		
+
+		 function getHasil() {
+		 	var arrLabel = [];
+		 	var arrHasil = [];
+
+		 	var id = $('#id_kuesioner').val();
+		 	$.ajax({
+			    url: "{{base_url('superuser/hasil/')}}"+id,
+			    type: "POST",
+			    dataType: 'json',
+			    success: function(datas) {
+			    	var data = datas.Data;
+			    	for (var i = 0; i < data.length; i++) {
+			    		arrLabel.push(data[i].Label);
+			    		arrHasil.push(data[i].Hasil);
+			    	}
+			        console.log('Label',arrLabel);
+			        console.log('Hasil',arrHasil);
+			         var ctx = document.getElementById("canvas");
+					 var config = {
+						type: 'radar',
+						data: {
+							labels: arrLabel,
+							datasets: [{
+								label: datas.Kuesioner,
+								borderColor: 'rgba(255,0,0,0.3)',
+								backgroundColor: 'rgba(255,0,0,0.3)',
+								pointBackgroundColor: 'rgba(0,0,255,0.3)',
+								data: arrHasil
+							}]
+						},
+						options: {
+							title: {
+								display: true,
+								text: 'Kuesioner'
+							},
+							elements: {
+								line: {
+									tension: 0.0,
+								}
+							},
+							scale: {
+								beginAtZero: true,
+							}
+						}
+					};
+					 var myChart = new Chart(ctx,config)
+			    },
+			    error: function(rtnData) {
+			        alert('error' + rtnData);
+			    }
+			});
+		 }
+
+		 
+	</script>
 @endsection
