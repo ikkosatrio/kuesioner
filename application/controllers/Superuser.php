@@ -457,12 +457,14 @@ class Superuser extends CI_Controller {
 			$judul     = $this->input->post('judul');
 			$skala     = $this->input->post('skala');
 			$deskripsi = $this->input->post('deskripsi');
+			$masukkan = $this->input->post('masukkan');
 
 			$data = array(
 				'kode_kuesioner' => $kode,
 				'judul'          => $judul,
 				'skala'          => $skala,
 				'deskripsi'      => $deskripsi,
+				'masukkan' => $masukkan,
 			);
 
 			if($this->m_kuesioner->input_data($data,'kuesioner')){
@@ -513,12 +515,14 @@ class Superuser extends CI_Controller {
 			$judul     = $this->input->post('judul');
 			$skala     = $this->input->post('skala');
 			$deskripsi = $this->input->post('deskripsi');
+			$masukkan = $this->input->post('masukkan');
 
 			$data = array(
 				'kode_kuesioner' => $kode,
 				'judul'          => $judul,
 				'skala'          => $skala,
 				'deskripsi'      => $deskripsi,
+				'masukkan' => $masukkan,
 			);
 
 			if($this->m_kuesioner->update_data($where,$data,'kuesioner')){
@@ -555,6 +559,7 @@ class Superuser extends CI_Controller {
 				'id_kuesioner' => $id,
 			);
 			$hasil = $this->m_jawaban->hasil($where,'jawaban')->row();
+			$kuesioner = $this->m_kuesioner->detail($where,'kuesioner')->row();
 
 			$arrHasil = array();
 				$arrHasil[] = array('Label' => 'Efficiency','Hasil' => (double) $hasil->avg_Efficiency);
@@ -566,6 +571,7 @@ class Superuser extends CI_Controller {
 			echo json_encode(array(
 				'Message' => 'Success',
 				'Kuesioner' => $id,
+				'Masukkan' => $kuesioner->masukkan,
 				'Data' => $arrHasil,
 			));
 		}else{

@@ -43,6 +43,9 @@ Dashboard - Administrasi
 							<canvas id="canvas"></canvas>
 							{{-- <a href="{{base_url('superuser/kuesioner/create')}}"><button type="button" class="btn bg-teal-400 btn-labeled"><b><i class="icon-plus-circle2"></i></b> Tambah Kuesioner</button></a> --}}
 						</div>
+						<div class="panel panel-flat">
+							<p id="masukkan"></p>
+						</div>
 						
 					</div>
 					<!-- /basic datatable -->					
@@ -61,12 +64,15 @@ Dashboard - Administrasi
 		 	var arrLabel = [];
 		 	var arrHasil = [];
 
-		 	var id = $('#id_kuesioner').val();
+		 	var id = $('#keyword').val();
 		 	$.ajax({
 			    url: "{{base_url('superuser/hasil/')}}"+id,
 			    type: "POST",
 			    dataType: 'json',
 			    success: function(datas) {
+
+			    	$("#masukkan").text(datas.Masukkan);
+
 			    	var data = datas.Data;
 			    	for (var i = 0; i < data.length; i++) {
 			    		arrLabel.push(data[i].Label);

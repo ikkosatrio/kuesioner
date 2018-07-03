@@ -70,6 +70,12 @@ Dashboard - Administrasi
 									<textarea rows="10" id="editor-full" cols="100" class="wysihtml5 wysihtml5-default2 form-control"  name="deskripsi" >{!! ($type=='create') ? '' : $kuesioner->deskripsi !!}</textarea>
 								</div>
 							</div>
+							<div class="form-group">
+								<label class="col-lg-2 control-label">Masukkan <span class="text-danger"><b>*</b></span></label>
+								<div class="col-lg-10">
+									<textarea rows="10" id="editor-full" cols="100" class="wysihtml5 wysihtml5-default2 form-control"  name="masukkan" >{!! ($type=='create') ? '' : $kuesioner->masukkan !!}</textarea>
+								</div>
+							</div>
 						
 					<div class="text-right">
 							<button type="submit" class="btn btn-primary">{{ ($type=='create') ? 'Buat Kuesioner' : 'Ubah Kuesioner' }} <i class="icon-arrow-right14 position-right"></i></button>
