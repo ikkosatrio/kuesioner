@@ -8,7 +8,7 @@ class Superuser extends CI_Controller {
 		parent::__construct();
 
 		if(!$this->session->userdata('auth')){
-			redirect('main');
+			redirect('auth');
 		}
 		$this->blade->sebarno('ctrl', $this);
 		$this->load->library('session');
@@ -236,7 +236,12 @@ class Superuser extends CI_Controller {
 			
 			$soals = $this->m_responden->tampil_data('soal')->result();
 
-			$hasil = 0;
+			$hasil        = 0;
+			$efficiency   = 0;
+			$satisfiction = 0;
+			$learnability = 0;
+			$error        = 0; 
+			$memorability = 0;
 
 			foreach ($soals as $soal) {
 				if ($this->input->post('jawaban-'.$soal->id_soal)) {
@@ -245,9 +250,27 @@ class Superuser extends CI_Controller {
 
 					$arrjawab = array(
 						'id_jawaban' => $id,
-						'id_soal' => $id_soal,
-						'jawaban' => $jawaban,
+						'id_soal'    => $id_soal,
+						'jawaban'    => $jawaban,
  					);
+
+					switch ($soal->aspek) {
+						case 'Efficiency':
+							$efficiency = $efficiency + $this->hitungSoal($soal->jenis,$jawaban);
+							break;
+						case 'Error':
+							$error = $error + $this->hitungSoal($soal->jenis,$jawaban);
+							break;
+						case 'Satisfaction':
+							$satisfiction = $satisfiction + $this->hitungSoal($soal->jenis,$jawaban);
+							break;
+						case 'Learnability':
+							$learnability = $learnability + $this->hitungSoal($soal->jenis,$jawaban);
+							break;
+						case 'Memorability':
+							$memorability = $memorability + $this->hitungSoal($soal->jenis,$jawaban);
+							break;
+					}
 
  					$hasil = $hasil + $this->hitungSoal($soal->jenis,$jawaban);
 
@@ -261,9 +284,19 @@ class Superuser extends CI_Controller {
 			);
 
 			$hasil = $hasil * 2.5;
+			$efficiency   = $efficiency * 2.5;
+			$satisfiction = $satisfiction * 2.5;
+			$learnability = $learnability * 2.5;
+			$error        = $error * 2.5; 
+			$memorability = $memorability * 2.5;
 
 			$datajawab = array(
 					'hasil' => $hasil,
+					'Efficiency' => $efficiency,
+					'Error' => $error,
+					'Satisfaction' => $satisfiction,
+					'Learnability' => $learnability,
+					'Memorability' => $memorability 
 			);
 
 
@@ -370,6 +403,7 @@ class Superuser extends CI_Controller {
 		else if ($url=="update" && $id!=null) {
 			$data['type']    = "update";
 			$where           = array('id_responden' => $id);
+			$where           = array('IDPel' => $id);
 			$data['responden'] = $this->m_responden->detail($where,'responden')->row();
 			echo $this->blade->nggambar('admin.responden.content',$data);
 		}
@@ -426,12 +460,14 @@ class Superuser extends CI_Controller {
 			$judul     = $this->input->post('judul');
 			$skala     = $this->input->post('skala');
 			$deskripsi = $this->input->post('deskripsi');
+			$masukkan = $this->input->post('masukkan');
 
 			$data = array(
 				'kode_kuesioner' => $kode,
 				'judul'          => $judul,
 				'skala'          => $skala,
 				'deskripsi'      => $deskripsi,
+				'masukkan' => $masukkan,
 			);
 
 			if($this->m_kuesioner->input_data($data,'kuesioner')){
@@ -482,12 +518,14 @@ class Superuser extends CI_Controller {
 			$judul     = $this->input->post('judul');
 			$skala     = $this->input->post('skala');
 			$deskripsi = $this->input->post('deskripsi');
+			$masukkan = $this->input->post('masukkan');
 
 			$data = array(
 				'kode_kuesioner' => $kode,
 				'judul'          => $judul,
 				'skala'          => $skala,
 				'deskripsi'      => $deskripsi,
+				'masukkan' => $masukkan,
 			);
 
 			if($this->m_kuesioner->update_data($where,$data,'kuesioner')){
@@ -511,85 +549,40 @@ class Superuser extends CI_Controller {
 	
 
 	// Start hasil
-	public function hasil($url=null,$id=null)
-	{
+	public function hasil($id=null)
+	{	
 		$data             = $this->data;
 		$data['menu']     = "hasil";
-		$data['hasil'] = $this->m_kuesioner->tampil_data('kuesioner')->result();
+		$data['boolHasil'] = false;
 
-		if ($url=="create") {
+		if ($id != null) {
 			$data['type']			= "create";
-			echo $this->blade->nggambar('admin.kuesioner.content',$data);
-			return;
-		}
-		else if ($url == "created" && $this->input->is_ajax_request() == true) {
-
-			$kode      = $this->input->post('kode_kuesioner');
-			$judul     = $this->input->post('judul');
-			$skala     = $this->input->post('skala');
-			$deskripsi = $this->input->post('deskripsi');
-
-			$data = array(
-				'kode_kuesioner' => $kode,
-				'judul'          => $judul,
-				'skala'          => $skala,
-				'deskripsi'      => $deskripsi,
+			
+			$where = array(
+				'id_kuesioner' => $id,
 			);
+			$hasil = $this->m_jawaban->hasil($where,'jawaban')->row();
+			$kuesioner = $this->m_kuesioner->detail($where,'kuesioner')->row();
 
-			if($this->m_kuesioner->input_data($data,'kuesioner')){
-				echo goResult(true,"Data Telah Di Tambahkan");
-				return;
-			}
-		}
-		else if ($url=="update" && $id!=null) {
-			$data['type']    = "update";
-			$where           = array('id_kuesioner' => $id);
-			$data['kuesioner'] = $this->m_kuesioner->detail($where,'kuesioner')->row();
+			$arrHasil = array();
+				$arrHasil[] = array('Label' => 'Efficiency','Hasil' => (double) $hasil->avg_Efficiency);
+				$arrHasil[] = array('Label' => 'Error', 'Hasil' => (double) $hasil->avg_Error);
+				$arrHasil[] = array('Label' => 'Satisfaction', 'Hasil' => (double) $hasil->avg_Satisfaction);
+				$arrHasil[] = array('Label' => 'Learnability', 'Hasil' => (double) $hasil->avg_Learnability);
 
-			$data['soal'] = $this->m_soal->tampilByKuesioner($where,'soal')->result();
 
-			echo $this->blade->nggambar('admin.kuesioner.content',$data);
-		}
-		else if ($url=="jawab" && $id!=null) {
-			$data['type']    = "update";
-			$where           = array('id_kuesioner' => $id);
-			$data['kuesioner'] = $this->m_kuesioner->detail($where,'kuesioner')->row();
-
-			$data['soal'] = $this->m_soal->tampilByKuesioner($where,'soal')->result();
-
-			echo $this->blade->nggambar('admin.kuesioner.jawab',$data);
-		}
-		else if ($url=="updated" && $id!=null && $this->input->is_ajax_request() == true) {
-			$where           = array('id_kuesioner' => $id);
-
-			$kode      = $this->input->post('kode_kuesioner');
-			$judul     = $this->input->post('judul');
-			$skala     = $this->input->post('skala');
-			$deskripsi = $this->input->post('deskripsi');
-
-			$data = array(
-				'kode_kuesioner' => $kode,
-				'judul'          => $judul,
-				'skala'          => $skala,
-				'deskripsi'      => $deskripsi,
-			);
-
-			if($this->m_kuesioner->update_data($where,$data,'kuesioner')){
-				echo goResult(true,"Data Telah Di Tambahkan");
-				return;
-			}
-		}
-		else if ($url=="deleted" && $id != null) {
-			$where           = array('id_kuesioner' => $id);
-			if ($this->m_kuesioner->hapus_data($where,'kuesioner')) {
-
-			}
-			redirect('superuser/kuesioner/');
-		}
-		else {
+			echo json_encode(array(
+				'Message' => 'Success',
+				'Kuesioner' => $id,
+				'Masukkan' => $kuesioner->masukkan,
+				'Data' => $arrHasil,
+			));
+		}else{
 			echo $this->blade->nggambar('admin.hasil.index',$data);
-			return;
+			return;	
 		}
+		
+		
 	}
 	// End hasil 
 	

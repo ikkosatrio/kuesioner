@@ -35,6 +35,12 @@ class M_jawaban extends CI_Model {
 		return $this->db->get_where($table,$where);
 	}
 
+	function hasil($where,$table){
+		$this->db->select('AVG(Efficiency) avg_Efficiency,AVG(Error) avg_Error,AVG(Satisfaction) avg_Satisfaction,AVG(Learnability) avg_Learnability,AVG(Memorability) avg_Memorability');
+		$this->db->where($where);
+		return $this->db->get($table);
+	}
+
 	function input_data($data,$table){
 		$this->db->insert($table,$data);
 		return $this->db->insert_id();

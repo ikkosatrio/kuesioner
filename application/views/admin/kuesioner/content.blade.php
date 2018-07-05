@@ -70,6 +70,12 @@ Dashboard - Administrasi
 									<textarea rows="10" id="editor-full" cols="100" class="wysihtml5 wysihtml5-default2 form-control"  name="deskripsi" >{!! ($type=='create') ? '' : $kuesioner->deskripsi !!}</textarea>
 								</div>
 							</div>
+							<div class="form-group">
+								<label class="col-lg-2 control-label">Masukkan <span class="text-danger"><b>*</b></span></label>
+								<div class="col-lg-10">
+									<textarea rows="10" id="editor-full" cols="100" class="wysihtml5 wysihtml5-default2 form-control"  name="masukkan" >{!! ($type=='create') ? '' : $kuesioner->masukkan !!}</textarea>
+								</div>
+							</div>
 						
 					<div class="text-right">
 							<button type="submit" class="btn btn-primary">{{ ($type=='create') ? 'Buat Kuesioner' : 'Ubah Kuesioner' }} <i class="icon-arrow-right14 position-right"></i></button>
@@ -106,6 +112,7 @@ Dashboard - Administrasi
 			                        	<th>No</th>
 			                        	<th>Soal</th>
 			                        	<th>Jenis</th>
+			                        	<th>Aspek</th>
 			                            <th class="text-center">Aksi</th>
 			                        </tr>
 			                    </thead>
@@ -119,6 +126,7 @@ Dashboard - Administrasi
 				                        	</span>
 				                        </td>
 				                        <td align="center">{{$result->jenis}}</td>
+				                        <td align="center">{{$result->aspek}}</td>
 				                        <td class="text-center">
 				                           <div class="btn-group">
 					                    	<button type="button" class="btn btn-danger btn-sm btn-rounded dropdown-toggle" data-toggle="dropdown"><i class="icon-cog5 position-left"></i> Action <span class="caret"></span></button>
@@ -171,11 +179,11 @@ Dashboard - Administrasi
 												<br>
 												<select required="true" name="aspek" class="form-control">
 													<option value="">=Pilih ASPEK=</option>
-													<option value="1">Efficiency</option>
-													<option value="2">Memorability</option>
-													<option value="3">Error</option>
-													<option value="4">Satisfaction</option>
-													<option value="5">Learnabillity</option>
+													<option value="Efficiency">Efficiency</option>
+													<option value="Memorability">Memorability</option>
+													<option value="Error">Error</option>
+													<option value="Satisfaction">Satisfaction</option>
+													<option value="Learnabillity">Learnabillity</option>
 												</select>
 											</div>
 										</div>
