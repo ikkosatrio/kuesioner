@@ -3,7 +3,7 @@
 Dashboard - Administrasi
 @endsection
 @section('style')
-	
+
 @endsection
 @section('corejs')
 	<script type="text/javascript" src="{{base_url()}}assets/js/core/libraries/jquery_ui/interactions.min.js"></script>
@@ -46,21 +46,21 @@ Dashboard - Administrasi
 							<div class="form-group">
 								<label class="col-lg-2 control-label">Kode <span class="text-danger"><b>*</b></span></label>
 								<div class="col-lg-10">
-									<input class="form-control" type="text" placeholder="Kode Kuesioner" name="kode_kuesioner" 
+									<input class="form-control" type="text" placeholder="Kode Kuesioner" name="kode_kuesioner"
 									value="{{ ($type=='create') ? '' : $kuesioner->kode_kuesioner }}" required>
 								</div>
 							</div>
 							<div class="form-group">
 								<label class="col-lg-2 control-label">Judul <span class="text-danger"><b>*</b></span></label>
 								<div class="col-lg-10">
-									<input class="form-control" type="text" placeholder="Judul Kuesioner" name="judul" 
+									<input class="form-control" type="text" placeholder="Judul Kuesioner" name="judul"
 									value="{{ ($type=='create') ? '' : $kuesioner->judul }}" required>
 								</div>
 							</div>
 							<div class="form-group">
 								<label class="col-lg-2 control-label">Skala <span class="text-danger"><b>*</b></span></label>
 								<div class="col-lg-10">
-									<input class="form-control" type="number" placeholder="Skala" name="skala" 
+									<input class="form-control" type="number" placeholder="Skala" name="skala"
 									value="{{ ($type=='create') ? '' : $kuesioner->skala }}" required>
 								</div>
 							</div>
@@ -73,10 +73,10 @@ Dashboard - Administrasi
 							<div class="form-group">
 								<label class="col-lg-2 control-label">Masukkan <span class="text-danger"><b>*</b></span></label>
 								<div class="col-lg-10">
-									<textarea rows="10" id="editor-full" cols="100" class="wysihtml5 wysihtml5-default2 form-control"  name="masukkan" >{!! ($type=='create') ? '' : $kuesioner->masukkan !!}</textarea>
+									<textarea rows="10" id="editor-ku" cols="100" class="wysihtml5 wysihtml5-default2 form-control"  name="masukkan" >{!! ($type=='create') ? '' : $kuesioner->masukkan !!}</textarea>
 								</div>
 							</div>
-						
+
 					<div class="text-right">
 							<button type="submit" class="btn btn-primary">{{ ($type=='create') ? 'Buat Kuesioner' : 'Ubah Kuesioner' }} <i class="icon-arrow-right14 position-right"></i></button>
 							@if($type=="update")
@@ -86,10 +86,10 @@ Dashboard - Administrasi
 					</form>
 					</div>
 					</div>
-					
+
 					<!-- /form horizontal -->
 
-					
+
 					<!-- Footer -->
 					{{-- <div class="footer text-muted">
 						&copy; 2015. <a href="#">Limitless Web App Kit</a> by <a href="http://themeforest.net/user/Kopyov" target="_blank">Eugene Kopyov</a>
@@ -97,7 +97,7 @@ Dashboard - Administrasi
 					<!-- /footer -->
 					@if ($type=='update')
 						{{-- expr --}}
-					
+
 					<div class="panel panel-flat">
 						<div class="panel-heading">
 							<h5 class="panel-title">List Soal</h5>
@@ -131,12 +131,12 @@ Dashboard - Administrasi
 				                           <div class="btn-group">
 					                    	<button type="button" class="btn btn-danger btn-sm btn-rounded dropdown-toggle" data-toggle="dropdown"><i class="icon-cog5 position-left"></i> Action <span class="caret"></span></button>
 					                    	<ul class="dropdown-menu dropdown-menu-right">
-												<li>		
+												<li>
 													<a href="javascript:void(0)" onclick="editIt({{$result->id_soal}})">
 														<i class="fa fa-edit"></i> Ubah Kuesioner
 													</a>
 												</li>
-												<li><a href="javascript:void(0)" onclick="deleteIt(this)" 
+												<li><a href="javascript:void(0)" onclick="deleteIt(this)"
 												data-url="{{base_url('superuser/soal/deleted/'.$result->id_soal.'/'.$kuesioner->id_kuesioner)}}">
 														<i class="fa fa-trash"></i> Hapus Kuesioner
 													</a>
@@ -222,8 +222,8 @@ Dashboard - Administrasi
 	};
 
 
-	$(".switch").bootstrapSwitch();	
- 	
+	$(".switch").bootstrapSwitch();
+
 
  	function editIt(id){
  		console.log(id);
@@ -234,7 +234,7 @@ Dashboard - Administrasi
           		contentType: false,
           		dataType:'json',
 				beforeSend: function(){
-					blockMessage($('#form-blog'),'Please Wait ,','#fff');		
+					blockMessage($('#form-blog'),'Please Wait ,','#fff');
 				}
 			})
 			.done(function(data){
@@ -264,7 +264,7 @@ Dashboard - Administrasi
           		processData: false,
           		contentType: false,
 				beforeSend: function(){
-					blockMessage($('#form-blog'),'Please Wait ,','#fff');		
+					blockMessage($('#form-blog'),'Please Wait ,','#fff');
 				}
 			})
 			.done(function(data){
@@ -276,7 +276,7 @@ Dashboard - Administrasi
 				},
 				function(){
 					if(data.auth!=false){
-						redirect("{{base_url('superuser/kuesioner/update/'.$kuesioner->id_kuesioner)}}");		
+						redirect("{{base_url('superuser/kuesioner/update/'.$kuesioner->id_kuesioner)}}");
 						return;
 					}
 				});
@@ -309,7 +309,7 @@ Dashboard - Administrasi
           		processData: false,
           		contentType: false,
 				beforeSend: function(){
-					blockMessage($('#form-blog'),'Please Wait , {{ ($type =="create") ? "Menambahkan Kuesioner" : "Memperbarui Kuesioner" }}','#fff');		
+					blockMessage($('#form-blog'),'Please Wait , {{ ($type =="create") ? "Menambahkan Kuesioner" : "Memperbarui Kuesioner" }}','#fff');
 				}
 			})
 			.done(function(data){
@@ -321,7 +321,7 @@ Dashboard - Administrasi
 				},
 				function(){
 					if(data.auth!=false){
-						redirect("{{base_url('superuser/kuesioner')}}");		
+						redirect("{{base_url('superuser/kuesioner')}}");
 						return;
 					}
 				});
@@ -336,11 +336,11 @@ Dashboard - Administrasi
 				function(){
 				});
 			 })
-			
+
 		})
 	</script>
 	<script type="text/javascript" src="{{base_url()}}assets/ckeditor/ckeditor.js"></script>
 	<script type="text/javascript" src="{{base_url()}}assets/js/pages/editor_ckeditor.js"></script>
-	
+
 @endsection
 @endsection
