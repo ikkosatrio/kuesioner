@@ -46,9 +46,9 @@ Dashboard - Administrasi
 						<div class="panel panel-flat">
 							<p id="masukkan"></p>
 						</div>
-						
+
 					</div>
-					<!-- /basic datatable -->					
+					<!-- /basic datatable -->
 
 				</div>
 				<!-- /content area -->
@@ -58,7 +58,7 @@ Dashboard - Administrasi
 @section('script')
 	<script>
 
-		
+
 
 		 function getHasil() {
 		 	var arrLabel = [];
@@ -71,7 +71,7 @@ Dashboard - Administrasi
 			    dataType: 'json',
 			    success: function(datas) {
 
-			    	$("#masukkan").text(datas.Masukkan);
+			    	$("#masukkan").html(datas.Masukkan);
 
 			    	var data = datas.Data;
 			    	for (var i = 0; i < data.length; i++) {
@@ -116,6 +116,6 @@ Dashboard - Administrasi
 			});
 		 }
 
-		 
+
 	</script>
 @endsection
