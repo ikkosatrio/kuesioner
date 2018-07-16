@@ -18,11 +18,18 @@ $(function() {
         baseHref : "http://polres.dev/"
     });
 
-   
+    var editor = CKEDITOR.replace( 'editor-ku', {
+        height: ((editorsmall==true) ? '100px' : '200px' ),
+        extraPlugins: 'forms',
+        baseHref : "http://polres.dev/"
+    });
+
+
 
 
     CKEDITOR.replaceClass = 'editor-full';
-  
+    CKEDITOR.replaceClass = 'editor-ku';
+
 
     // Readonly editor
     // ------------------------------
@@ -108,15 +115,15 @@ $(function() {
                hideToolBarDiv( event );
     });
 
-   
+
 
 
     if(editorsmall==true){
         editor.config.toolbar = [
                 ['Styles','Format','Font','FontSize','Bold','Italic','Underline','StrikeThrough','-','Undo','Redo','-','Cut','Copy','Paste','Find','Replace','-','Outdent','Indent','-','Print','NumberedList','BulletedList','-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock','Image','Table','-','Link','Smiley','TextColor','BGColor',],
-        ] ;    
+        ] ;
     }
-    
+
 
 
     //Whenever CKEditor get focus. We will show the toolbar DIV.
@@ -136,5 +143,5 @@ $(function() {
         $('#'+event.editor.name+'TBdiv').hide();
         $('#'+event.editor_2.name+'TBdiv').hide();
      }
-    
+
 });
