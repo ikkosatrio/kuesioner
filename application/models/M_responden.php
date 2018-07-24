@@ -6,7 +6,7 @@ class M_responden extends CI_Model {
 
 	public function __construct()
 	{
-		parent::__construct();	
+		parent::__construct();
 	}
 
 	function tampil_data($table){
@@ -40,9 +40,10 @@ class M_responden extends CI_Model {
 
 	function input_data($data,$table){
 		$this->db->insert($table,$data);
+		return $this->db->insert_id();
 	}
-	
-	function detail($where,$table){	
+
+	function detail($where,$table){
 		return $this->db->get_where($table,$where);
 	}
 
