@@ -132,6 +132,9 @@ Dashboard - Administrasi
 					                    	<button type="button" class="btn btn-danger btn-sm btn-rounded dropdown-toggle" data-toggle="dropdown"><i class="icon-cog5 position-left"></i> Action <span class="caret"></span></button>
 					                    	<ul class="dropdown-menu dropdown-menu-right">
 												<li>
+													<a href="{{base_url('superuser/rekomendasi/lihat/?id_soal='.$result->id_soal)}}">
+														<i class="fa fa-edit"></i> Rekomendasi
+													</a>
 													<a href="javascript:void(0)" onclick="editIt({{$result->id_soal}})">
 														<i class="fa fa-edit"></i> Ubah Kuesioner
 													</a>

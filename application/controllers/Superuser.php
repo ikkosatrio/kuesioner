@@ -18,6 +18,7 @@ class Superuser extends CI_Controller {
 		$this->load->model('m_user');
 		$this->load->model('m_responden');
 		$this->load->model('m_jawaban');
+		$this->load->model('m_rekomendasi');
 		$this->data['nkuesioner'] =  $this->m_kuesioner->tampil_data('kuesioner')->num_rows();
 		$this->data['nsoal']      =  $this->m_soal->tampil_data('soal')->num_rows();
 		$this->data['nresponden'] =  $this->m_responden->tampil_data('responden')->num_rows();
@@ -175,7 +176,67 @@ class Superuser extends CI_Controller {
 		return;
 	}
 	// End Config
-	
+
+	// Start rekomendais
+	public function rekomendasi($url=null,$id=null,$id_kuesioner=null)
+	{
+		$data             = $this->data;
+		$data['menu']     = "soal";
+		$id_soal = $this->input->post_get('id_soal');
+		$where = array('soal.id_soal' => $id_soal );
+		$data['rekomendasi'] =  $this->m_rekomendasi->tampil_data($where,'rekomendasi')->result();
+		$data['soal'] =  $this->m_soal->detail($where,'soal')->row();;
+		$soal=$data['soal'];
+			if ($url=="create") {
+				$data['type']			= "create";
+				echo $this->blade->nggambar('admin.rekomendasi.content',$data);
+				return;
+			}else if ($url == "created" && $this->input->is_ajax_request() == true) {
+				$nilai  = $this->input->post('nilai');
+				$rekomendasi  = $this->input->post('rekomendasi');
+
+				$data = array(
+					'nilai'           => $nilai,
+					'id_soal'         => $soal->id_soal,
+					'isi_rekomendasi' => $rekomendasi,
+				);
+
+				if($this->m_rekomendasi->input_data($data,'rekomendasi')){
+					echo goResult(true,"Data Telah Di Tambahkan");
+					return;
+				}
+			}else if ($url=="update" && $id!=null) {
+				$data['type']    = "update";
+				$where           = array('id_rekomendasi' => $id);
+				$data['rekomendasi'] = $this->m_rekomendasi->detail($where,'rekomendasi')->row();
+				echo $this->blade->nggambar('admin.rekomendasi.content',$data);
+				return;
+			}else if ($url=="updated" && $id!=null) {
+				$where           = array('id_rekomendasi' => $id);
+
+				$nilai  = $this->input->post('nilai');
+				$rekomendasi  = $this->input->post('rekomendasi');
+
+
+				$data = array(
+					'nilai'           => $nilai,
+					'id_soal'         => $soal->id_soal,
+					'isi_rekomendasi' => $rekomendasi,
+				);
+
+				if($this->m_rekomendasi->update_data($where,$data,'rekomendasi')){
+					echo goResult(true,"Data Telah Di Tambahkan");
+					return;
+				}
+
+			}else if ($url=="deleted" && $id != null && $id_kuesioner != null) {
+
+			}else {
+				echo $this->blade->nggambar('admin.rekomendasi.index',$data);
+				return;
+			}
+	}
+
 	// Start soal
 	public function soal($url=null,$id=null,$id_kuesioner=null)
 	{
@@ -194,7 +255,7 @@ class Superuser extends CI_Controller {
 			$id_kuesioner  = $this->input->post('id_kuesioner');
 			$jenis  = $this->input->post('jenis');
 
-			
+
 			$data = array(
 				'id_kuesioner' => $id_kuesioner,
 				'soal'       => $soal,
@@ -220,7 +281,7 @@ class Superuser extends CI_Controller {
 			$data = array(
 				'id_kuesioner' => $kuesioner,
 				'id_responden'       => $nim,
-			); 
+			);
 
 			$result = $this->m_jawaban->checkresponden($data,'jawaban')->num_rows();
 
@@ -230,14 +291,14 @@ class Superuser extends CI_Controller {
 			}
 
 			$id = $this->m_jawaban->input_data($data,'jawaban');
-			
+
 			$soals = $this->m_responden->tampil_data('soal')->result();
 
 			$hasil        = 0;
 			$efficiency   = 0;
 			$satisfiction = 0;
 			$learnability = 0;
-			$error        = 0; 
+			$error        = 0;
 			$memorability = 0;
 
 			foreach ($soals as $soal) {
@@ -284,7 +345,7 @@ class Superuser extends CI_Controller {
 			$efficiency   = $efficiency * 2.5;
 			$satisfiction = $satisfiction * 2.5;
 			$learnability = $learnability * 2.5;
-			$error        = $error * 2.5; 
+			$error        = $error * 2.5;
 			$memorability = $memorability * 2.5;
 
 			$datajawab = array(
@@ -293,7 +354,7 @@ class Superuser extends CI_Controller {
 					'Error' => $error,
 					'Satisfaction' => $satisfiction,
 					'Learnability' => $learnability,
-					'Memorability' => $memorability 
+					'Memorability' => $memorability
 			);
 
 
@@ -337,7 +398,7 @@ class Superuser extends CI_Controller {
 		}
 	}
 	// End soal
-	// 
+	//
 	function hitungSoal($jenis,$jawaban){
 
 		if ($jenis == 'positif') {
@@ -502,7 +563,7 @@ class Superuser extends CI_Controller {
 				$hasil = $hasil + $row->hasil;
 			}
 
-			
+
 			$data['total'] = $this->m_jawaban->detailFull($where,'jawaban')->num_rows();
 			$data['total'] = $hasil / $data['total'];
 
@@ -543,46 +604,66 @@ class Superuser extends CI_Controller {
 		}
 	}
 	// End kuesioner
-	
+
 
 	// Start hasil
 	public function hasil($id=null)
-	{	
+	{
 		$data             = $this->data;
 		$data['menu']     = "hasil";
 		$data['boolHasil'] = false;
 
 		if ($id != null) {
 			$data['type']			= "create";
-			
+
 			$where = array(
 				'id_kuesioner' => $id,
 			);
 			$hasil = $this->m_jawaban->hasil($where,'jawaban')->row();
 			$kuesioner = $this->m_kuesioner->detail($where,'kuesioner')->row();
 
+
+			$hasilRoundSoal = $this->m_soal->countRoundSoal($id)->result();
+
+			// var_dump($hasil);
+			// die();
+
+			$masukkan = "";
+
+			$i = 1;
+			foreach ($hasilRoundSoal as $key => $value) {
+				$where = array('id_soal' => $value->id_soal);
+				$rekomendasi = $this->m_rekomendasi->detail($where,'rekomendasi')->result();
+				foreach ($rekomendasi as $row) {
+					if ($row->nilai == $value->nilai) {
+						$masukkan = $masukkan.$i.". ".$row->isi_rekomendasi."</br>";
+						$i++;
+					}
+				}
+			}
+
 			$arrHasil = array();
-				$arrHasil[] = array('Label' => 'Efficiency','Hasil' => (double) $hasil->avg_Efficiency);
-				$arrHasil[] = array('Label' => 'Error', 'Hasil' => (double) $hasil->avg_Error);
-				$arrHasil[] = array('Label' => 'Satisfaction', 'Hasil' => (double) $hasil->avg_Satisfaction);
-				$arrHasil[] = array('Label' => 'Learnability', 'Hasil' => (double) $hasil->avg_Learnability);
+			$arrHasil[] = array('Label' => 'Efficiency','Hasil' => (double) $hasil->avg_Efficiency);
+			$arrHasil[] = array('Label' => 'Error', 'Hasil' => (double) $hasil->avg_Error);
+			$arrHasil[] = array('Label' => 'Satisfaction', 'Hasil' => (double) $hasil->avg_Satisfaction);
+			$arrHasil[] = array('Label' => 'Learnability', 'Hasil' => (double) $hasil->avg_Learnability);
 
 
 			echo json_encode(array(
 				'Message' => 'Success',
 				'Kuesioner' => $id,
-				'Masukkan' => $kuesioner->masukkan,
+				'Masukkan' => $masukkan,
 				'Data' => $arrHasil,
 			));
 		}else{
 			echo $this->blade->nggambar('admin.hasil.index',$data);
-			return;	
+			return;
 		}
-		
-		
+
+
 	}
-	// End hasil 
-	
+	// End hasil
+
 
 
 
