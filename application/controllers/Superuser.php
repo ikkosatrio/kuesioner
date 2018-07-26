@@ -37,6 +37,7 @@ class Superuser extends CI_Controller {
 
 	}
 
+	//fungsi autocomplete
 	public function autocomplete()
 	{
 		if (isset($_GET['term'])) {
@@ -54,6 +55,7 @@ class Superuser extends CI_Controller {
         }
 	}
 
+	//mengecek responden sudah mengisi kuesioner atau belum
 	public function checkresponden()
 	{
 		if (isset($_POST['id_responden'])) {
@@ -75,6 +77,7 @@ class Superuser extends CI_Controller {
 		}
 	}
 
+	//untuk mengambil data soal untuk diedit
 	public function getsoalajax(){
 		if (isset($_GET['id_soal'])) {
 
@@ -398,7 +401,11 @@ class Superuser extends CI_Controller {
 		}
 	}
 	// End soal
+<<<<<<< HEAD
+	// fungsi hitung soal berdasarkan positif atau negatif
+=======
 	//
+>>>>>>> b75cf6e54b0871337d3d976b7f9cbcab2e0056a4
 	function hitungSoal($jenis,$jawaban){
 
 		if ($jenis == 'positif') {

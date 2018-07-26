@@ -6,7 +6,7 @@ class Auth extends CI_Controller {
 	{
 		parent::__construct();
 		
-		$this->blade->sebarno('controller', $this);
+		$this->blade->sebarno('controller', $this); 
 		$this->load->model('m_login');
 		$this->load->model('m_config');
 		$this->load->library('session');
@@ -25,6 +25,7 @@ class Auth extends CI_Controller {
 
 	public function masuk()
 	{
+		//fungsi untuk masuk kuesioner
 
 		if($this->session->userdata('auth')){
 			redirect('superuser');
@@ -36,6 +37,7 @@ class Auth extends CI_Controller {
 	}
 
 	public function authentication(){
+		//fungsi untuk verifikasi user masuk
 		if (!$this->input->is_ajax_request()) {
 		   exit('No direct script access allowed');
 		}
@@ -69,6 +71,7 @@ class Auth extends CI_Controller {
 	}
 
 	public function keluar(){
+		//fungsi untuk keluar
 
 		if(!$this->session->userdata('auth')){
 			redirect('auth');
