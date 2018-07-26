@@ -6,7 +6,7 @@ class M_soal extends CI_Model {
 
 	public function __construct()
 	{
-		parent::__construct();	
+		parent::__construct();
 	}
 
 	function tampil_data($table){
@@ -21,19 +21,31 @@ class M_soal extends CI_Model {
 		// return $this->db->get($table);
 	}
 
-	function tampilByKuesioner($where,$table){	
+	function tampilByKuesioner($where,$table){
 		return $this->db->get_where($table,$where);
 	}
 
-	function countSoal($where,$table){	
+	function countSoal($where,$table){
 		return $this->db->get_where($table,$where);
+	}
+
+	function countRoundSoal($id_kuesioner){
+		$query = $this->db
+		->select("ROUND(jawaban) as nilai,soal.id_soal")
+		->from("detail_jawaban")
+		->join("soal", "soal.id_soal=detail_jawaban.id_soal")
+		->where("soal.id_kuesioner", $id_kuesioner)
+		->group_by("detail_jawaban.id_soal")
+		->get();
+
+		return $query;
 	}
 
 	function input_data($data,$table){
 		$this->db->insert($table,$data);
 	}
-	
-	function detail($where,$table){	
+
+	function detail($where,$table){
 		return $this->db->get_where($table,$where);
 	}
 
