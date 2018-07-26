@@ -41,7 +41,7 @@ Dashboard - Administrasi
 							<table id="responden" class="table table-striped table-sm" style="display: none">
 								<tr>
 									<td>Nama</td>
-									<td id="nama_responden">Ikko</td>
+									<td id="nama_responden">Arika</td>
 								</tr>
 								<tr>
 									<td>Nama Instansi</td>

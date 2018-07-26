@@ -76,7 +76,7 @@ class Superuser extends CI_Controller {
 		}
 	}
 
-	//untuk mengambil data untuk diedit
+	//untuk mengambil data soal untuk diedit
 	public function getsoalajax(){
 		if (isset($_GET['id_soal'])) {
 
