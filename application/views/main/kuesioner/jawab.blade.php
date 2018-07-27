@@ -120,48 +120,6 @@ Dashboard - Administrasi
 	 <script type="text/javascript">
         $(document).ready(function(){
 
-        	$("#btnReset").click(function(){
-        		 $('#responden').hide("slide")
-        		 $('#nim').val();
-        		 $("#keyword").val();
-        		 $('#id_responden').val();
-        	});
-
-            $( "#keyword" ).autocomplete({
-              source: "{{base_url('superuser/autocomplete')}}",
-              focus: function( event, ui ) {
-              	console.log(ui);
-		        $( "#keyword" ).val( ui.item.nama );
-		        return false;
-		      },
-              select: function (event, ui) {
-                    $.ajax({
-					  method: "POST",
-					  url: "{{base_url('superuser/checkresponden')}}",
-					  data: { id_responden: ui.item.id_responden,id_kuesioner:{{$kuesioner->id_kuesioner}} },
-					  dataType:'json',
-					})
-					  .done(function( msg ) {
-					    if (msg.Message == 'Ok') {
-					    	$('#responden').show("slide")
-		                    $(this).val(ui.item.nama);
-		                    $('#nama_responden').text(ui.item.nama);
-		                    $('#instansi_responden').text(ui.item.instansi);
-		                    $('#nim').val(ui.item.nim);
-		                    $('#id_responden').val(ui.item.id_responden);
-					    }else{
-					    	$('#keyword').val();
-					    	swal("Hahaha!", "Responden "+ui.item.nama+" sudah mengisi", "error");
-					    }
-					  });
-                    return false;
-                }
-            }).autocomplete( "instance" )._renderItem = function( ul, item ) {
-		      return $( "<li>" )
-		        .append( "<div>" + item.nim + " - <strong>" + item.nama + "</strong></div>" )
-		        .appendTo( ul );
-		    };
-
 		    $('#formjawab').submit(function(e){
 				e.preventDefault();
 				var formData = new FormData( $("#formjawab")[0] );

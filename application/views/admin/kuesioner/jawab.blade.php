@@ -62,7 +62,7 @@ Dashboard - Administrasi
 							</div>
 							<br>
 							<div class="row">
-								
+
 							</div>
 						</div>
 						<table class="table table-striped table-lg table-responsive">
@@ -109,7 +109,7 @@ Dashboard - Administrasi
 						<br>
 					</div>
 					</form>
-					<!-- /basic datatable -->					
+					<!-- /basic datatable -->
 
 				</div>
 				<!-- /content area -->
@@ -144,13 +144,13 @@ Dashboard - Administrasi
 					  .done(function( msg ) {
 					    if (msg.Message == 'Ok') {
 					    	$('#responden').show("slide")
-		                    $(this).val(ui.item.nama); 
-		                    $('#nama_responden').text(ui.item.nama); 
-		                    $('#instansi_responden').text(ui.item.instansi); 
+		                    $(this).val(ui.item.nama);
+		                    $('#nama_responden').text(ui.item.nama);
+		                    $('#instansi_responden').text(ui.item.instansi);
 		                    $('#nim').val(ui.item.nim);
 		                    $('#id_responden').val(ui.item.id_responden);
 					    }else{
-					    	$('#keyword').val(); 
+					    	$('#keyword').val();
 					    	swal("Hahaha!", "Responden "+ui.item.nama+" sudah mengisi", "error");
 					    }
 					  });
@@ -169,7 +169,7 @@ Dashboard - Administrasi
 				// for ( instance in CKEDITOR.instances ) {
 			 //        CKEDITOR.instances[instance].updateElement();
 			 //    }
-			 //    
+			 //
 			 	// console.log(new FormData(this));
 			 	// debugger;
 
@@ -182,7 +182,7 @@ Dashboard - Administrasi
 		          		processData: false,
 		          		contentType: false,
 						beforeSend: function(){
-							blockMessage($('#formjawab'),'Please Wait ,','#fff');		
+							blockMessage($('#formjawab'),'Please Wait ,','#fff');
 						}
 					})
 					.done(function(data){
@@ -197,7 +197,7 @@ Dashboard - Administrasi
 								// $("#formjawab")
 								 $("#btnReset").click();
 								 $('#formjawab')[0].reset();
-								// redirect("{{base_url('superuser/kuesioner/update/'.$kuesioner->id_kuesioner)}}");		
+								// redirect("{{base_url('superuser/kuesioner/update/'.$kuesioner->id_kuesioner)}}");
 								return;
 							}
 						});
@@ -218,5 +218,3 @@ Dashboard - Administrasi
         });
     </script>
 @endsection
-
-
