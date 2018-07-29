@@ -218,6 +218,22 @@ class Main extends CI_Controller {
 		redirect('main');
 	}
 
+	function hitungSoal($jenis,$jawaban){
+
+		if ($jenis == 'positif') {
+			return ($jawaban - 1);
+		}else if ($jenis == 'negatif') {
+			return (5 - $jawaban);
+		}
+
+	}
+
+	function countSoal($id_kuesioner=null)
+	{
+		$where           = array('id_kuesioner' => $id_kuesioner);
+		return $this->m_soal->countSoal($where,'soal')->num_row();
+	}
+
 
 }
 

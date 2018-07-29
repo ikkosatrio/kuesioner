@@ -401,11 +401,6 @@ class Superuser extends CI_Controller {
 		}
 	}
 	// End soal
-<<<<<<< HEAD
-	// fungsi hitung soal berdasarkan positif atau negatif
-=======
-	//
->>>>>>> b75cf6e54b0871337d3d976b7f9cbcab2e0056a4
 	function hitungSoal($jenis,$jawaban){
 
 		if ($jenis == 'positif') {
